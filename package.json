@@ -1,7 +1,17 @@
 {
-  "name": "bestcode-python-lab",
+  "name": "tinypyk",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Scratch-inspired block coding for young children learning Python.",
+  "license": "MIT",
+  "homepage": "https://tinypyk.com",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sohamtech-uk/tinypyk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sohamtech-uk/tinypyk/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
