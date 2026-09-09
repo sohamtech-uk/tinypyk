@@ -839,23 +839,14 @@ function App() {
               </button>
             </div>
             {editorTab === 'code' ? (
-              <>
-                <div className="panel-header compact-header">
-                  <div>
-                    <h1>Blocks</h1>
-                    <span className="panel-subtitle">Categories stay closed</span>
-                  </div>
-                  <span className="lesson-chip">{currentLesson.concept}</span>
-                </div>
-                <BlocklyWorkspace
-                  ref={workspaceRef}
-                  workspaceXml={workspaceXml}
-                  reloadKey={reloadKey}
-                  onCodeChange={setGeneratedPython}
-                  onOpenExtensions={openExtensions}
-                  onOpenRepository={openRepositoryDialog}
-                />
-              </>
+              <BlocklyWorkspace
+                ref={workspaceRef}
+                workspaceXml={workspaceXml}
+                reloadKey={reloadKey}
+                onCodeChange={setGeneratedPython}
+                onOpenExtensions={openExtensions}
+                onOpenRepository={openRepositoryDialog}
+              />
             ) : (
               <SpriteAssetPanel
                 mode={editorTab}

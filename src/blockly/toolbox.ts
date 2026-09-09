@@ -1,21 +1,18 @@
 import * as Blockly from 'blockly/core';
 import { scratchPalette } from './scratchPalette';
 
+const categoryUi = (slug: string) => ({
+  cssconfig: { container: `tinypyk-toolbox-category-${slug}` },
+});
+
 export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
   kind: 'categoryToolbox',
   contents: [
     {
       kind: 'category',
-      name: 'Events',
-      colour: scratchPalette.events,
-      contents: [
-        { kind: 'block', type: 'start_program' },
-      ],
-    },
-    {
-      kind: 'category',
       name: 'Motion',
       colour: scratchPalette.motion,
+      ...categoryUi('motion'),
       contents: [
         { kind: 'block', type: 'turtle_create' },
         {
@@ -47,6 +44,7 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
       kind: 'category',
       name: 'Looks',
       colour: scratchPalette.looks,
+      ...categoryUi('looks'),
       contents: [
         { kind: 'block', type: 'say_message' },
         { kind: 'block', type: 'character_say' },
@@ -58,6 +56,7 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
       kind: 'category',
       name: 'Sound',
       colour: scratchPalette.sound,
+      ...categoryUi('sound'),
       contents: [
         { kind: 'block', type: 'music_play' },
         {
@@ -69,8 +68,18 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     },
     {
       kind: 'category',
+      name: 'Events',
+      colour: scratchPalette.events,
+      ...categoryUi('events'),
+      contents: [
+        { kind: 'block', type: 'start_program' },
+      ],
+    },
+    {
+      kind: 'category',
       name: 'Control',
       colour: scratchPalette.control,
+      ...categoryUi('control'),
       contents: [
         {
           kind: 'block',
@@ -111,6 +120,7 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
       kind: 'category',
       name: 'Sensing',
       colour: scratchPalette.sensing,
+      ...categoryUi('sensing'),
       contents: [
         { kind: 'block', type: 'ask_question' },
       ],
@@ -119,6 +129,7 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
       kind: 'category',
       name: 'Operators',
       colour: scratchPalette.operators,
+      ...categoryUi('operators'),
       contents: [
         { kind: 'block', type: 'logic_compare' },
         { kind: 'block', type: 'logic_operation' },
@@ -145,12 +156,14 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
       kind: 'category',
       name: 'Variables',
       colour: scratchPalette.variables,
+      ...categoryUi('variables'),
       custom: 'VARIABLE',
     },
     {
       kind: 'category',
       name: 'My Blocks',
       colour: scratchPalette.myBlocks,
+      ...categoryUi('my-blocks'),
       contents: [
         { kind: 'block', type: 'function_define_simple' },
         { kind: 'block', type: 'function_call_simple' },
@@ -158,20 +171,9 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     },
     {
       kind: 'category',
-      name: 'Extensions',
-      categorystyle: 'extensions_category',
-      contents: [
-        {
-          kind: 'button',
-          text: 'Choose an Extension',
-          callbackkey: 'OPEN_EXTENSIONS',
-        },
-      ],
-    },
-    {
-      kind: 'category',
       name: 'Advanced',
       categorystyle: 'advanced_category',
+      ...categoryUi('advanced'),
       contents: [
         {
           kind: 'category',

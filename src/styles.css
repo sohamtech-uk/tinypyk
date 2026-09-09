@@ -3753,18 +3753,19 @@ button {
 
 .blockly-extension-launcher {
   position: absolute;
-  bottom: 12px;
-  left: 12px;
-  z-index: 5;
+  bottom: 0;
+  left: 0;
+  z-index: 75;
   display: grid;
-  width: 62px;
-  height: 58px;
+  width: 112px;
+  height: 64px;
   place-items: center;
-  border: 3px solid #14233a;
-  border-radius: 8px;
+  border: 0;
+  border-top: 2px solid #7445d8;
+  border-radius: 0;
   color: #ffffff;
   background: #8657df;
-  box-shadow: 0 5px 0 rgba(20, 35, 58, 0.16);
+  box-shadow: none;
 }
 
 .blockly-extension-launcher svg {
@@ -3778,8 +3779,8 @@ button {
 
 .blockly-extension-launcher span {
   position: absolute;
-  top: 8px;
-  right: 7px;
+  top: 10px;
+  left: 65px;
   color: #ffffff;
   font-size: 1.15rem;
   font-weight: 950;
@@ -4776,12 +4777,139 @@ button {
   font-size: 0.88rem;
 }
 
-.blocklyTreeRow {
-  border-radius: 4px;
+.blocklyToolbox {
+  width: 112px;
+  padding: 6px 0 70px;
+  border-right: 2px solid #d7dbe3;
+  background: #ffffff;
+  scrollbar-width: none;
 }
 
-.blocklyToolboxDiv {
-  background: #f4f7fa;
+.blocklyToolbox::-webkit-scrollbar {
+  display: none;
+}
+
+[class^="tinypyk-toolbox-category-"] {
+  width: 100%;
+  outline: none;
+}
+
+[class^="tinypyk-toolbox-category-"]:focus-visible {
+  outline: 3px solid #4d7cff;
+  outline-offset: -3px;
+}
+
+[class^="tinypyk-toolbox-category-"] > .blocklyToolboxCategory {
+  display: flex;
+  height: 68px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 0 !important;
+  padding: 4px 2px !important;
+  border-radius: 0;
+  background: #ffffff !important;
+  line-height: 1;
+}
+
+[class^="tinypyk-toolbox-category-"] > .blocklyToolboxCategory:hover {
+  background: #f2f4f7 !important;
+}
+
+[class^="tinypyk-toolbox-category-"][aria-selected="true"] > .blocklyToolboxCategory {
+  background: color-mix(in srgb, var(--tinypyk-category-colour), #ffffff 83%) !important;
+}
+
+[class^="tinypyk-toolbox-category-"] > .blocklyToolboxCategory > .blocklyTreeRowContentContainer {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+[class^="tinypyk-toolbox-category-"] .blocklyToolboxCategoryIcon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border: 2px solid color-mix(in srgb, var(--tinypyk-category-colour), #000000 16%);
+  border-radius: 50%;
+  background-color: var(--tinypyk-category-colour);
+  background-image: none;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.12);
+  visibility: visible;
+}
+
+[class^="tinypyk-toolbox-category-"] .blocklyToolboxCategoryLabel,
+[class^="tinypyk-toolbox-category-"][aria-selected="true"] .blocklyToolboxCategoryLabel {
+  max-width: 104px;
+  overflow: hidden;
+  padding: 0 2px;
+  color: #50596f;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+  line-height: 1.1;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+.tinypyk-toolbox-category-motion {
+  --tinypyk-category-colour: #4c97ff;
+}
+
+.tinypyk-toolbox-category-looks {
+  --tinypyk-category-colour: #9966ff;
+}
+
+.tinypyk-toolbox-category-sound {
+  --tinypyk-category-colour: #cf63cf;
+}
+
+.tinypyk-toolbox-category-events {
+  --tinypyk-category-colour: #ffbf00;
+}
+
+.tinypyk-toolbox-category-control {
+  --tinypyk-category-colour: #ffab19;
+}
+
+.tinypyk-toolbox-category-sensing {
+  --tinypyk-category-colour: #5cb1d6;
+}
+
+.tinypyk-toolbox-category-operators {
+  --tinypyk-category-colour: #59c059;
+}
+
+.tinypyk-toolbox-category-variables {
+  --tinypyk-category-colour: #ff8c1a;
+}
+
+.tinypyk-toolbox-category-my-blocks {
+  --tinypyk-category-colour: #ff6680;
+}
+
+.tinypyk-toolbox-category-advanced {
+  --tinypyk-category-colour: #004047;
+}
+
+.tinypyk-toolbox-category-advanced > .blocklyToolboxCategoryGroup .blocklyToolboxCategory {
+  min-height: 36px;
+  height: auto;
+  margin: 0;
+  border-left-width: 5px !important;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  white-space: normal;
+}
+
+.blocklyFlyoutBackground {
+  fill: #ffffff;
+  fill-opacity: 1;
+  stroke: #d7dbe3;
+  stroke-width: 1px;
 }
 
 @media (max-width: 1400px) {
