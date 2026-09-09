@@ -159,7 +159,6 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     {
       kind: 'category',
       name: 'Extensions',
-      colour: scratchPalette.extensions,
       categorystyle: 'extensions_category',
       contents: [
         {
@@ -172,13 +171,11 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     {
       kind: 'category',
       name: 'Advanced',
-      colour: scratchPalette.advanced,
       categorystyle: 'advanced_category',
       contents: [
         {
           kind: 'category',
           name: 'Functions',
-          colour: scratchPalette.myBlocks,
           categorystyle: 'procedure_category',
           contents: [
             { kind: 'block', type: 'function_define_simple' },
@@ -188,7 +185,6 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
         {
           kind: 'category',
           name: 'Arrays',
-          colour: scratchPalette.arrays,
           categorystyle: 'arrays_category',
           contents: [
             { kind: 'block', type: 'lists_create_with' },
@@ -199,7 +195,6 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
         {
           kind: 'category',
           name: 'Text',
-          colour: scratchPalette.text,
           categorystyle: 'text_category',
           contents: [
             { kind: 'block', type: 'text' },
@@ -211,7 +206,6 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
         {
           kind: 'category',
           name: 'Game',
-          colour: scratchPalette.game,
           categorystyle: 'game_category',
           contents: [
             { kind: 'block', type: 'character_say' },
@@ -223,7 +217,6 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
         {
           kind: 'category',
           name: 'Repository',
-          colour: scratchPalette.repository,
           categorystyle: 'repository_category',
           contents: [
             {

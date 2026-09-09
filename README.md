@@ -21,7 +21,7 @@ information.
 ## Tech Stack
 
 - React, TypeScript, and Vite.
-- Blockly `13.0.0-beta.8` from the Raspberry Pi Foundation Blockly fork.
+- Blockly `13.2.1` from the Raspberry Pi Foundation Blockly fork.
 - Skulpt for browser-side Python execution.
 - PHP endpoints for optional OpenAI, ElevenLabs, and admin configuration on
   simple shared hosting.
@@ -30,7 +30,7 @@ information.
 
 Requirements:
 
-- Node.js 20 or newer.
+- Node.js 22 or newer.
 - npm.
 
 Install and run locally:

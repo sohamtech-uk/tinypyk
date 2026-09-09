@@ -79,13 +79,13 @@ const newsItems = [
     cta: 'Open roadmap update',
   },
   {
-    slug: 'blockly-v13-beta-workspace',
-    title: 'Blockly v13 beta workspace',
-    copy: 'The learning space uses Blockly v13 beta blocks to help children move toward Python.',
+    slug: 'blockly-v13-workspace',
+    title: 'Blockly v13 workspace',
+    copy: 'The learning space uses stable Blockly v13 blocks to help children move toward Python.',
     details: [
-      'The editor uses Blockly v13 beta-style blocks to create a Scratch-like coding surface while generating real Python text beside the workspace.',
+      'The editor uses stable Blockly v13 blocks to create a Scratch-like coding surface while generating real Python text beside the workspace.',
       'The block categories stay familiar for younger learners: Events, Motion, Looks, Sound, Control, Sensing, Operators, Variables, My Blocks, Extensions, and Advanced.',
-      'TinyPyk thanks the Blockly team and community for the tools that make friendly block-based Python learning possible.',
+      'Blockly v13 includes built-in keyboard navigation and screen-reader accessibility, plus ongoing interaction and performance fixes.',
     ],
     cta: 'Open Blockly update',
   },

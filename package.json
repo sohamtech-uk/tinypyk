@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com/sohamtech-uk/tinypyk.git"
   },
+  "engines": {
+    "node": ">=22"
+  },
   "bugs": {
     "url": "https://github.com/sohamtech-uk/tinypyk/issues"
   },
@@ -20,7 +23,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "blockly": "13.0.0-beta.8",
+    "blockly": "13.2.1",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "skulpt": "^1.2.0"
