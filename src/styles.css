@@ -2922,46 +2922,32 @@ button {
   border-color: #d6dde3;
 }
 
-.playback-controls {
+.navbar-account-actions {
   display: flex;
-  gap: 8px;
-}
-
-.play-button,
-.stop-button {
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  padding-left: 6px;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
 }
 
-.play-button {
-  color: #17331f;
-  background: #bff2dd;
-  border-color: #39a96b;
+.navbar-account-button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 14px;
+  color: #ffffff;
+  background: transparent;
+  font: inherit;
+  font-weight: 950;
 }
 
-.play-button svg {
-  width: 25px;
-  height: 25px;
-  fill: #39a96b;
-  stroke: #1f7a3e;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.5;
+.navbar-account-button:hover,
+.navbar-account-button:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
 }
 
-.stop-button {
-  color: #4c151b;
-  background: #ffe0e5;
-  border-color: #f26b78;
-}
-
-.stop-button > span:first-child {
-  width: 18px;
-  height: 18px;
-  border: 3px solid #d64550;
-  border-radius: 999px;
-  background: #ff9ba5;
+.navbar-account-button.join {
+  border: 2px solid rgba(255, 255, 255, 0.62);
 }
 
 .tutorial-button {
@@ -4003,6 +3989,76 @@ button {
   border-bottom: 2px solid #edf2ff;
 }
 
+.stage-toolbar {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 2px solid #dbe7f6;
+  border-radius: 12px;
+  padding: 4px 6px;
+  background: #ffffff;
+}
+
+.stage-playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stage-control-button,
+.stage-clear-button {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 9px;
+  padding: 0 10px;
+  color: #253754;
+  background: transparent;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 950;
+}
+
+.stage-control-button:hover,
+.stage-control-button:focus-visible,
+.stage-clear-button:hover,
+.stage-clear-button:focus-visible {
+  background: #eef4ff;
+}
+
+.stage-control-button:disabled,
+.stage-clear-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.stage-control-button.play svg {
+  width: 26px;
+  height: 26px;
+  fill: #49c66f;
+  stroke: #218c49;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+}
+
+.stage-stop-icon {
+  width: 20px;
+  height: 20px;
+  background: #f26b78;
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+
+.stage-clear-button {
+  border: 2px solid #dbe7f6;
+  background: #ffffff;
+}
+
 .sprite-manager {
   display: grid;
   gap: 8px;
@@ -4728,6 +4784,20 @@ button {
   background: #f4f7fa;
 }
 
+@media (max-width: 1400px) {
+  .navbar {
+    gap: 8px;
+  }
+
+  .nav-actions {
+    gap: 4px;
+  }
+
+  .navbar .brand small {
+    display: none;
+  }
+}
+
 @media (max-width: 1180px) {
   .editor-shell {
     height: auto;
@@ -5423,6 +5493,20 @@ button {
 
   .nav-actions > * {
     flex: 1 1 130px;
+  }
+
+  .navbar-account-actions {
+    flex-basis: 100%;
+    justify-content: flex-end;
+    margin-left: 0;
+    padding-top: 6px;
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    border-left: 0;
+  }
+
+  .navbar-account-actions > * {
+    flex: 0 1 auto;
   }
 
   .workspace-layout,

@@ -786,13 +786,12 @@ function App() {
           onLoadFromComputer={handleLoadFromComputer}
           onSaveToComputer={handleSaveToComputer}
           onResetProject={handleResetProject}
-          onPlay={handlePlay}
-          onStop={handleStop}
-          onResetOutput={resetOutput}
           onTutorial={openTutorial}
           onExtensions={openExtensions}
           onRepository={openRepositoryDialog}
           onAdmin={showAdmin}
+          onJoin={showMembership}
+          onSignIn={showMembership}
           musicMuted={musicMuted}
           voiceMuted={voiceMuted}
           onMusicMutedChange={(muted) => {
@@ -891,6 +890,8 @@ function App() {
             onRemoveSprite={handleRemoveSprite}
             onCostumeChange={handleCostumeChange}
             onBackdropChange={setActiveBackdropId}
+            onPlay={handlePlay}
+            onStop={handleStop}
             onClear={resetOutput}
             onInputSubmit={handleInputSubmit}
             onInputValueChange={setInputValue}

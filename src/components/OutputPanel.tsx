@@ -21,6 +21,8 @@ type OutputPanelProps = {
   onRemoveSprite: (spriteId: string) => void;
   onCostumeChange: (spriteId: string, costumeIndex: number) => void;
   onBackdropChange: (backdropId: string) => void;
+  onPlay: () => void;
+  onStop: () => void;
   onClear: () => void;
   onInputSubmit: () => void;
   onInputValueChange: (value: string) => void;
@@ -46,6 +48,8 @@ export function OutputPanel({
   onRemoveSprite,
   onCostumeChange,
   onBackdropChange,
+  onPlay,
+  onStop,
   onClear,
   onInputSubmit,
   onInputValueChange,
@@ -151,26 +155,42 @@ export function OutputPanel({
           <h2>Stage, Input, Output</h2>
           <span className="panel-subtitle">{status || 'Ready to play'}</span>
         </div>
-        <button type="button" className="button small" onClick={onClear} disabled={isRunning}>
-          Clear
-        </button>
       </div>
 
       <div className="stage-card">
-        <div className="stage-toggles" aria-label="Sound controls">
+        <div className="stage-toolbar">
+          <div className="stage-playback-controls" aria-label="Stage controls">
+            <button
+              type="button"
+              className="stage-control-button play"
+              onClick={onPlay}
+              disabled={isRunning}
+              aria-label="Play project"
+            >
+              <svg aria-hidden="true" viewBox="0 0 28 28">
+                <path d="M7 23V5" />
+                <path d="M8 6c4-3 8 2 13-1v12c-5 3-9-2-13 1Z" />
+              </svg>
+              <span>{isRunning ? 'Playing' : 'Play'}</span>
+            </button>
+            <button
+              type="button"
+              className="stage-control-button stop"
+              onClick={onStop}
+              disabled={!isRunning}
+              aria-label="Stop project"
+            >
+              <span className="stage-stop-icon" aria-hidden="true" />
+              <span>Stop</span>
+            </button>
+          </div>
           <button
             type="button"
-            className={voiceMuted ? 'button small muted' : 'button small'}
-            onClick={() => onVoiceMutedChange(!voiceMuted)}
+            className="stage-clear-button"
+            onClick={onClear}
+            disabled={isRunning}
           >
-            {voiceMuted ? 'Voice Muted' : 'Voice On'}
-          </button>
-          <button
-            type="button"
-            className={musicMuted ? 'button small muted' : 'button small'}
-            onClick={() => onMusicMutedChange(!musicMuted)}
-          >
-            {musicMuted ? 'Music Muted' : 'Music On'}
+            Clear
           </button>
         </div>
 
@@ -206,6 +226,23 @@ export function OutputPanel({
             );
           })}
           <div className="stage-ground" />
+        </div>
+
+        <div className="stage-toggles" aria-label="Sound controls">
+          <button
+            type="button"
+            className={voiceMuted ? 'button small muted' : 'button small'}
+            onClick={() => onVoiceMutedChange(!voiceMuted)}
+          >
+            {voiceMuted ? 'Voice Muted' : 'Voice On'}
+          </button>
+          <button
+            type="button"
+            className={musicMuted ? 'button small muted' : 'button small'}
+            onClick={() => onMusicMutedChange(!musicMuted)}
+          >
+            {musicMuted ? 'Music Muted' : 'Music On'}
+          </button>
         </div>
 
         {activeSprite ? (

@@ -8,13 +8,12 @@ type NavbarProps = {
   onLoadFromComputer: (file: File) => void;
   onSaveToComputer: () => void;
   onResetProject: () => void;
-  onPlay: () => void;
-  onStop: () => void;
-  onResetOutput: () => void;
   onTutorial: () => void;
   onExtensions: () => void;
   onRepository: () => void;
   onAdmin: () => void;
+  onJoin: () => void;
+  onSignIn: () => void;
   musicMuted: boolean;
   voiceMuted: boolean;
   onMusicMutedChange: (muted: boolean) => void;
@@ -29,13 +28,12 @@ export function Navbar({
   onLoadFromComputer,
   onSaveToComputer,
   onResetProject,
-  onPlay,
-  onStop,
-  onResetOutput,
   onTutorial,
   onExtensions,
   onRepository,
   onAdmin,
+  onJoin,
+  onSignIn,
   musicMuted,
   voiceMuted,
   onMusicMutedChange,
@@ -195,34 +193,14 @@ export function Navbar({
           </svg>
           <span>Repository</span>
         </button>
-        <div className="playback-controls" aria-label="Play controls">
-          <button
-            type="button"
-            className="button play-button"
-            onClick={onPlay}
-            disabled={isRunning}
-            aria-label="Play project"
-          >
-            <svg aria-hidden="true" viewBox="0 0 28 28">
-              <path d="M7 23V5" />
-              <path d="M8 6c4-3 8 2 13-1v12c-5 3-9-2-13 1Z" />
-            </svg>
-            <span>{isRunning ? 'Playing...' : 'Play'}</span>
+        <div className="navbar-account-actions" aria-label="TinyPyk account">
+          <button type="button" className="navbar-account-button join" onClick={onJoin}>
+            Join TinyPyk
           </button>
-          <button
-            type="button"
-            className="button stop-button"
-            onClick={onStop}
-            disabled={!isRunning}
-            aria-label="Stop project"
-          >
-            <span aria-hidden="true" />
-            <span>Stop</span>
+          <button type="button" className="navbar-account-button sign-in" onClick={onSignIn}>
+            Sign in
           </button>
         </div>
-        <button type="button" className="button ghost" onClick={onResetOutput} disabled={isRunning}>
-          Clear
-        </button>
         <input
           ref={fileInputRef}
           className="hidden-file-input"
