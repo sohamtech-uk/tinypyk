@@ -8,17 +8,26 @@ import { SpaceExplorerCertificate } from './SpaceExplorerCertificate';
 type SpaceExplorerProps = {
   completedIds: string[];
   projectTestRuns: number;
+  module2Early: boolean;
+  onOpenModule2: () => void;
   onOpenMission: (id: string) => void;
   onHome: () => void;
 };
 
-export function SpaceExplorer({ completedIds, projectTestRuns, onOpenMission, onHome }: SpaceExplorerProps) {
+export function SpaceExplorer({ completedIds, projectTestRuns, module2Early, onOpenModule2, onOpenMission, onHome }: SpaceExplorerProps) {
   const [showCertificate, setShowCertificate] = useState(false);
   const completed = new Set(completedIds);
   const firstIncompleteIndex = spaceExplorerLessonIds.findIndex((id) => !completed.has(id));
   const isUnlocked = (id: string) => {
     const index = spaceExplorerLessonIds.indexOf(id);
-    return index >= 0 && (firstIncompleteIndex < 0 || index <= firstIncompleteIndex || completed.has(id));
+    if (index < 0) return false;
+    if (firstIncompleteIndex < 0 || index <= firstIncompleteIndex || completed.has(id)) return true;
+    if (module2Early && index >= 4 && index < 8) {
+      const module2 = spaceExplorerLessonIds.slice(4, 8);
+      const nextModule2 = module2.findIndex((missionId) => !completed.has(missionId));
+      return nextModule2 < 0 || index - 4 <= nextModule2;
+    }
+    return false;
   };
   const completeCount = spaceExplorerLessonIds.filter((id) => completed.has(id)).length;
   const allComplete = completeCount === spaceExplorerLessonIds.length;
@@ -46,12 +55,21 @@ export function SpaceExplorer({ completedIds, projectTestRuns, onOpenMission, on
 
         <section className="space-course-modules" aria-labelledby="space-modules-heading">
           <h2 id="space-modules-heading">Your learning journey</h2>
-          <p className="space-course-intro">Finish each mission by running working Python. A tick unlocks the next mission in this course without changing progress in the original TinyPyk lessons.</p>
+          <p className="space-course-intro">Finish each mission by running working Python. A tick unlocks the next mission without changing your original TinyPyk progress. Experienced learners may unlock Module 2 early, but both modules are needed for the certificate.</p>
           {spaceExplorerModules.map((module, moduleIndex) => (
             <section className="space-module-card" key={module.id} aria-labelledby={module.id + '-heading'}>
               <div className="space-module-heading">
                 <span className="space-module-number">{moduleIndex + 1}</span>
-                <div><p className="space-eyebrow">{module.label}</p><h3 id={module.id + '-heading'}>{module.title}</h3><p>{module.subtitle}</p><small>{module.topics}</small></div>
+                <div>
+                  <p className="space-eyebrow">{module.label}</p>
+                  <h3 id={module.id + '-heading'}>{module.title}</h3>
+                  <p>{module.subtitle}</p><small>{module.topics}</small>
+                  {moduleIndex === 1 && !module2Early && !isUnlocked('space-m2-1') ? (
+                    <button type="button" className="space-module-jump" onClick={onOpenModule2}>
+                      Returning learner? Start Module 2
+                    </button>
+                  ) : null}
+                </div>
               </div>
               <div className="space-mission-grid">
                 {module.lessonIds.map((id) => {
