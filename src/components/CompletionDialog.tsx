@@ -5,6 +5,7 @@ type CompletionDialogProps = {
   exerciseTitle?: string;
   hasNextQuest: boolean;
   hasNextLevel: boolean;
+  nextLevelLabel?: string;
   onNextQuest: () => void;
   onNextLevel: () => void;
   onLevels: () => void;
@@ -18,6 +19,7 @@ export function CompletionDialog({
   exerciseTitle,
   hasNextQuest,
   hasNextLevel,
+  nextLevelLabel = 'Next level',
   onNextQuest,
   onNextLevel,
   onLevels,
@@ -26,7 +28,7 @@ export function CompletionDialog({
   const nextLabel = hasNextQuest
     ? 'Next quest'
     : hasNextLevel
-      ? 'Next level'
+      ? nextLevelLabel
       : 'Back to levels';
   const handlePrimaryAction = hasNextQuest
     ? onNextQuest
