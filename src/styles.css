@@ -5829,6 +5829,12 @@ button {
 .space-module-heading h3 { margin: 0; font-size: 1.65rem; }
 .space-module-heading p:not(.space-eyebrow) { margin: 4px 0; color: #c7d2f5; }
 .space-module-heading small { color: #8cdfe7; font-weight: 700; }
+.space-module-jump {
+  display: block; margin-top: 14px; border: 1px solid #fdd16a; border-radius: 12px;
+  background: #233b6a; color: #ffdc87; font-weight: 900; padding: 12px 17px;
+}
+.space-module-jump:hover { background: #374c83; }
+
 .space-mission-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
 .space-mission-card { display: flex; flex-direction: column; gap: 10px; min-width: 0; min-height: 235px; padding: 18px; border-radius: 18px; border: 1px solid #52608c; background: #25325b; }
 .space-mission-card.is-complete { border-color: #5de0a9; background: #1c414a; }
