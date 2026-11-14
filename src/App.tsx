@@ -27,6 +27,18 @@ import tinyPykMark from './assets/tinypyk-mark.svg';
 const completedLessonsKey = 'tinypyk-python-levels-completed-v2';
 const spaceCompletedKey = 'tinypyk-space-explorer-completed-v1';
 const spaceProjectRunsKey = 'tinypyk-space-explorer-project-tests-v1';
+const spaceDraftsKey = 'tinypyk-space-explorer-drafts-v1';
+
+function readSpaceDraft(lessonId: string): string | undefined {
+  try {
+    const stored = JSON.parse(localStorage.getItem(spaceDraftsKey) || '{}') as unknown;
+    if (!stored || typeof stored !== 'object' || Array.isArray(stored)) return undefined;
+    const xml = (stored as Record<string, unknown>)[lessonId];
+    return typeof xml === 'string' && xml.trim() ? xml : undefined;
+  } catch {
+    return undefined;
+  }
+}
 const tutorialSeenKey = 'tinypyk-tutorial-seen';
 const stopSignal = 'TINYPYK_STOP';
 type AppView = 'home' | 'learn' | 'space' | 'admin' | 'membership' | 'policies';
@@ -167,6 +179,20 @@ function App() {
       ? unlockedSpaceLessonIds.includes(lessonId)
       : unlockedLessonIds.includes(lessonId);
 
+  const saveCurrentSpaceDraft = () => {
+    if (!currentLesson.id.startsWith('space-')) return;
+    const xml = workspaceRef.current?.getXml();
+    if (!xml) return;
+    try {
+      const saved = JSON.parse(localStorage.getItem(spaceDraftsKey) || '{}') as unknown;
+      const drafts = saved && typeof saved === 'object' && !Array.isArray(saved)
+        ? saved as Record<string, unknown> : {};
+      localStorage.setItem(spaceDraftsKey, JSON.stringify({ ...drafts, [currentLesson.id]: xml }));
+    } catch {
+      // Device storage can be unavailable; learners may still use Save to computer.
+    }
+  };
+
   useEffect(() => {
     localStorage.setItem(completedLessonsKey, JSON.stringify(completedLessonIds));
   }, [completedLessonIds]);
@@ -220,6 +246,7 @@ function App() {
   }, []);
 
   const showHome = () => {
+    saveCurrentSpaceDraft();
     window.location.hash = 'home';
     setView('home');
     setLearnMode('path');
@@ -230,6 +257,7 @@ function App() {
   };
 
   const showLearning = () => {
+    saveCurrentSpaceDraft();
     window.location.hash = 'learn';
     setView('learn');
     setLearnMode('path');
@@ -240,6 +268,7 @@ function App() {
   };
 
   const showSpaceExplorer = () => {
+    saveCurrentSpaceDraft();
     window.location.hash = 'space-explorer';
     setView('space');
     setLearnMode('path');
@@ -269,6 +298,7 @@ function App() {
   };
 
   const showLevels = () => {
+    saveCurrentSpaceDraft();
     window.location.hash = 'learn';
     setView('learn');
     setLearnMode('path');
@@ -595,6 +625,7 @@ function App() {
       return;
     }
 
+    saveCurrentSpaceDraft();
     resetOutput();
     resetRuntimeSoundQueue();
     if (!generatedPython.trim()) {
@@ -684,6 +715,7 @@ function App() {
   };
 
   const handleLessonChange = (lessonId: string) => {
+    saveCurrentSpaceDraft();
     const lesson = lessonMap.get(lessonId);
     if (!lesson) {
       return;
@@ -699,7 +731,7 @@ function App() {
     setLearnMode('editor');
     setShowHint(false);
     setCompletionState(null);
-    loadXmlIntoWorkspace(lesson.starterXml);
+    loadXmlIntoWorkspace(readSpaceDraft(lesson.id) || lesson.starterXml);
     resetOutput();
     scrollEditorToTop();
   };
@@ -733,7 +765,7 @@ function App() {
     setSelectedExerciseId('');
     setShowHint(false);
     setCompletionState(null);
-    loadXmlIntoWorkspace(lesson.starterXml);
+    loadXmlIntoWorkspace(readSpaceDraft(lesson.id) || lesson.starterXml);
     resetOutput();
     setStatus('Space Explorer: ' + lesson.title);
     scrollEditorToTop();
@@ -767,6 +799,7 @@ function App() {
   };
 
   const handleCompletionNextLevel = () => {
+    saveCurrentSpaceDraft();
     const nextLesson = completionState?.nextLessonId
       ? lessonMap.get(completionState.nextLessonId)
       : undefined;
@@ -786,7 +819,7 @@ function App() {
     setShowTutorial(false);
     setShowExtensions(false);
     setRepositorySnapshot(null);
-    loadXmlIntoWorkspace(nextLesson.starterXml);
+    loadXmlIntoWorkspace(readSpaceDraft(nextLesson.id) || nextLesson.starterXml);
     resetOutput();
     setStatus(`Opened ${nextLesson.title}.`);
     scrollEditorToTop();
