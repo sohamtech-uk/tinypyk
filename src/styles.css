@@ -5774,3 +5774,191 @@ button {
     grid-column: auto;
   }
 }
+
+
+/* Space Explorer: a separate, child-friendly two-module learning adventure. */
+.space-explorer-shell {
+  min-height: 100vh;
+  background: #0d1532;
+  color: #f7f8ff;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+.space-course-header {
+  max-width: 1240px;
+  margin: auto;
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.space-course-brand { font-weight: 900; font-size: 1.4rem; letter-spacing: -.03em; }
+.space-course-brand > span { color: #fdd166; }
+.space-course-brand small { color: #b8c4eb; font-size: .9rem; font-weight: 600; }
+.space-secondary-button {
+  border: 1px solid #6d79b3; border-radius: 14px; background: #1d2851;
+  color: white; padding: 12px 18px; font-weight: 700;
+}
+.space-course-main { max-width: 1220px; margin: 0 auto; padding: 10px 24px 64px; }
+.space-course-hero {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(210px, 340px);
+  align-items: center; gap: 28px; overflow: hidden;
+  min-height: 365px; border: 1px solid #4a5d9f; border-radius: 30px;
+  padding: 40px 46px;
+  background: radial-gradient(circle at 82% 25%, #3a368b 0, transparent 38%),
+              radial-gradient(circle at 5% 90%, #1b5d85 0, transparent 43%), #1a2453;
+}
+.space-course-hero > img { width: 100%; max-height: 320px; object-fit: contain; filter: drop-shadow(0 16px 24px #060b2877); }
+.space-pill { display: inline-block; background: #fdd166; color: #17203b; font-size: .73rem; font-weight: 900; padding: 9px 14px; border-radius: 50px; letter-spacing: .09em; }
+.space-hero-copy h1 { margin: 14px 0; font-size: clamp(2.6rem, 5.8vw, 5.2rem); line-height: 1.06; letter-spacing: -.055em; }
+.space-hero-copy h1 span { white-space: nowrap; }
+.space-hero-copy > p { color: #e1e7ff; font-size: 1.16rem; max-width: 620px; line-height: 1.65; }
+.space-hero-progress { margin-top: 24px; max-width: 460px; }
+.space-hero-progress > div:first-child { display: flex; gap: 10px; align-items: baseline; margin-bottom: 8px; }
+.space-hero-progress strong { font-size: 1.4rem; color: #ffd779; }
+.space-hero-progress span { color: #dbe6ff; }
+.space-progress-track { height: 12px; border-radius: 100px; background: #0b1639; overflow: hidden; }
+.space-progress-track span { display: block; height: 100%; background: linear-gradient(90deg, #54e6cf, #fcd26d); transition: width .2s; }
+.space-course-modules { margin-top: 44px; }
+.space-course-modules > h2 { font-size: 2rem; margin: 0 0 5px; }
+.space-course-intro { color: #c2cbee; max-width: 850px; line-height: 1.7; margin: 0 0 24px; }
+.space-module-card { background: #172144; border: 1px solid #374977; padding: 28px; border-radius: 25px; margin-bottom: 24px; }
+.space-module-heading { display: flex; gap: 18px; align-items: center; margin-bottom: 25px; }
+.space-module-number { display: grid; place-items: center; flex: 0 0 64px; height: 64px; border-radius: 17px; background: #fbd16a; font-weight: 900; font-size: 2rem; color: #1b2552; }
+.space-eyebrow { margin: 0 0 4px; color: #ffd272; letter-spacing: .12em; font-weight: 900; font-size: .75rem; text-transform: uppercase; }
+.space-module-heading h3 { margin: 0; font-size: 1.65rem; }
+.space-module-heading p:not(.space-eyebrow) { margin: 4px 0; color: #c7d2f5; }
+.space-module-heading small { color: #8cdfe7; font-weight: 700; }
+.space-mission-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
+.space-mission-card { display: flex; flex-direction: column; gap: 10px; min-width: 0; min-height: 235px; padding: 18px; border-radius: 18px; border: 1px solid #52608c; background: #25325b; }
+.space-mission-card.is-complete { border-color: #5de0a9; background: #1c414a; }
+.space-mission-status { font-size: .77rem; color: #aee4f8; font-weight: 800; }
+.space-mission-card.is-complete .space-mission-status { color: #a5ffd6; }
+.space-mission-card h4 { font-size: 1.12rem; margin: 0; line-height: 1.28; }
+.space-mission-card p { color: #dce5ff; margin: 0; line-height: 1.45; flex: 1; }
+.space-mission-duration { font-size: .8rem; color: #b9cbfc; }
+.space-mission-card button, .space-capstone button, .space-award-card button {
+  background: #fdd16a; border: none; color: #122042; border-radius: 12px;
+  padding: 12px 13px; font-weight: 900;
+}
+.space-mission-card button:hover:not(:disabled), .space-capstone button:hover:not(:disabled),
+.space-award-card button:hover:not(:disabled) { background: #ffe69a; }
+.space-mission-card button:disabled, .space-capstone button:disabled, .space-award-card button:disabled {
+  opacity: .48; cursor: not-allowed; background: #9ba5b9;
+}
+.space-capstone, .space-award-card {
+  display: flex; align-items: center; gap: 24px; padding: 29px;
+  margin: 24px 0; border-radius: 25px;
+}
+.space-capstone { background: #284066; border: 1px solid #6587b7; }
+.space-capstone-icon { font-size: 3rem; }
+.space-capstone > div:nth-child(2), .space-award-card > div { flex: 1; }
+.space-capstone h2, .space-award-card h2 { margin: 0 0 9px; font-size: 1.6rem; }
+.space-capstone p:not(.space-eyebrow), .space-award-card p { color: #e5ebff; margin: 0 0 10px; line-height: 1.5; }
+.space-capstone small { color: #ffd77d; font-weight: 700; }
+.space-award-card { background: linear-gradient(120deg, #323366, #582e78); border: 1px solid #ae7ccd; }
+.space-award-card.award-ready { border-color: #ffd16b; box-shadow: inset 0 0 0 2px #ffd16b33; }
+.space-award-card > span { font-size: 3.1rem; }
+
+.space-home-promo {
+  max-width: 1230px; margin: 48px auto; padding: 24px 40px;
+  display: flex; align-items: center; gap: 32px; border-radius: 28px;
+  background: linear-gradient(120deg, #192654, #503182); color: #fff;
+  box-shadow: 0 15px 35px #162c5660;
+}
+.space-home-promo img { width: 170px; max-height: 175px; object-fit: contain; }
+.space-home-promo p { color: #fdd16a; font-size: .8rem; font-weight: 900; letter-spacing: .1em; margin: 0 0 6px; }
+.space-home-promo h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 8px; }
+.space-home-promo span { display: block; max-width: 780px; line-height: 1.5; color: #e8eaff; }
+.space-home-promo button, .space-learning-banner button {
+  margin-top: 14px; background: #fdd16a; color: #172143; border: none;
+  border-radius: 12px; padding: 12px 18px; font-weight: 900;
+}
+.hero-actions .space-home-action { background: #fdd16a; color: #1c2550; }
+.space-learning-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 22px;
+  padding: 18px 22px; margin-bottom: 22px; border-radius: 20px;
+  background: linear-gradient(110deg, #1d2e69, #473477); color: white;
+}
+.space-learning-banner div { display: flex; flex-direction: column; gap: 4px; }
+.space-learning-banner strong { font-size: 1.1rem; }
+.space-learning-banner span { color: #dce7fb; }
+.space-learning-banner button { margin-top: 0; white-space: nowrap; }
+.space-lesson-back {
+  width: 100%; background: #263c72; border: 1px solid #6f91e4;
+  color: #fff; padding: 11px 16px; border-radius: 12px;
+  font-weight: 800; margin-bottom: 12px;
+}
+
+.space-certificate-modal { position: fixed; z-index: 2000; inset: 0; padding: 25px; overflow: auto; background: #080e25df; color: #172341; }
+.space-certificate-container { max-width: 1060px; margin: auto; }
+.space-certificate-controls { background: #fff; padding: 24px; border-radius: 20px; margin-bottom: 20px; display: grid; gap: 12px; }
+.space-certificate-controls h2 { margin: 0; font-size: 1.6rem; }
+.space-certificate-controls p { margin: 4px 0; }
+.space-certificate-controls label { font-weight: 750; }
+.space-certificate-controls input[type="text"], .space-certificate-controls input:not([type]) {
+  min-height: 46px; width: 100%; padding: 12px; border: 1px solid #97a4c4; border-radius: 10px; font: inherit;
+}
+.space-review-check { display: flex; align-items: flex-start; gap: 12px; font-size: .91rem; }
+.space-review-check input { margin-top: 5px; width: 18px; height: 18px; }
+.space-certificate-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.space-certificate-actions button { padding: 11px 20px; }
+.space-certificate-actions button:disabled { opacity: .5; cursor: not-allowed; }
+.certificate-paper {
+  position: relative; width: 100%; aspect-ratio: 297 / 210;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 5% 9%; overflow: hidden; text-align: center;
+  border: 15px double #d5a63f; border-radius: 7px;
+  background: radial-gradient(circle at 12% 15%, #dbeefe 0, transparent 32%),
+              radial-gradient(circle at 80% 90%, #fbe9bc 0, transparent 35%), #fffcf4;
+  box-shadow: 0 20px 50px #060c26a0; color: #162750;
+}
+.certificate-stars { color: #b98d2d; font-size: 1.5rem; letter-spacing: .3em; }
+.certificate-crest { font-size: clamp(2rem, 5vw, 3.7rem); }
+.certificate-topline { color: #4963a0; font-size: .8rem; font-weight: 900; letter-spacing: .24em; margin: .5rem 0 0; }
+.certificate-paper h2 { font-size: clamp(2.3rem, 6vw, 4.4rem); line-height: 1.03; letter-spacing: -.05em; margin: .8rem 0 0; }
+.certificate-paper h3 { font-size: clamp(1rem, 2.5vw, 1.75rem); letter-spacing: .12em; text-transform: uppercase; font-weight: 750; color: #bf913c; margin: .5rem 0 1rem; }
+.certificate-intro { color: #54647e; font-style: italic; margin: 0; }
+.certificate-name { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 850; margin: .6rem 0 1rem; border-bottom: 2px solid #c4a464; min-width: 50%; max-width: 100%; overflow-wrap: anywhere; }
+.certificate-description { max-width: 720px; line-height: 1.6; font-size: clamp(.9rem, 1.6vw, 1.15rem); }
+.certificate-footer { width: 88%; display: flex; justify-content: space-between; gap: 24px; margin-top: auto; padding-top: 20px; }
+.certificate-footer > div { display: grid; min-width: 170px; gap: 5px; font-weight: 750; }
+.certificate-footer small { font-weight: 500; color: #6c7790; }
+.certificate-bottom { margin-top: 18px; font-size: .8rem; letter-spacing: .03em; color: #566e9c; }
+@media (max-width: 960px) {
+  .space-mission-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .space-home-promo { margin-left: 18px; margin-right: 18px; }
+}
+@media (max-width: 650px) {
+  .space-course-main { padding: 10px 12px 50px; }
+  .space-course-header { padding: 12px; flex-wrap: wrap; }
+  .space-course-hero { padding: 24px; grid-template-columns: 1fr; }
+  .space-course-hero > img { max-height: 180px; width: 65%; justify-self: center; }
+  .space-module-card { padding: 18px; }
+  .space-module-heading { align-items: flex-start; }
+  .space-mission-grid { grid-template-columns: 1fr; }
+  .space-capstone, .space-award-card { flex-wrap: wrap; padding: 20px; }
+  .space-capstone button, .space-award-card button { width: 100%; }
+  .space-learning-banner, .space-home-promo { flex-direction: column; align-items: flex-start; }
+  .space-home-promo { padding: 22px; }
+  .space-home-promo img { width: 110px; }
+  .space-learning-banner button { width: 100%; }
+  .certificate-paper { border-width: 6px; padding: 15px; }
+  .certificate-description { line-height: 1.3; }
+  .certificate-footer { gap: 10px; }
+  .certificate-footer > div { min-width: 0; }
+}
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  body:has(.space-certificate-modal) * { visibility: hidden !important; }
+  body:has(.space-certificate-modal) .certificate-paper,
+  body:has(.space-certificate-modal) .certificate-paper * { visibility: visible !important; }
+  body:has(.space-certificate-modal) .certificate-paper {
+    position: fixed !important; top: 0; left: 0;
+    width: 297mm !important; height: 210mm !important;
+    margin: 0 !important; border-radius: 0 !important;
+    box-shadow: none !important; aspect-ratio: auto !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .space-certificate-controls { display: none !important; }
+}
