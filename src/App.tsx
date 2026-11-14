@@ -28,6 +28,7 @@ const completedLessonsKey = 'tinypyk-python-levels-completed-v2';
 const spaceCompletedKey = 'tinypyk-space-explorer-completed-v1';
 const spaceProjectRunsKey = 'tinypyk-space-explorer-project-tests-v1';
 const spaceDraftsKey = 'tinypyk-space-explorer-drafts-v1';
+const spaceModule2Key = 'tinypyk-space-explorer-module-2-early-v1';
 
 function readSpaceDraft(lessonId: string): string | undefined {
   try {
@@ -142,6 +143,9 @@ function App() {
     const value = Number(localStorage.getItem(spaceProjectRunsKey) || 0);
     return Number.isFinite(value) ? Math.min(2, Math.max(0, value)) : 0;
   });
+  const [spaceModule2Early, setSpaceModule2Early] = useState(
+    () => localStorage.getItem(spaceModule2Key) === 'yes',
+  );
 
   const lessonMap = useMemo(
     () => new Map([...lessons, ...spaceExplorerLessons].map((lesson) => [lesson.id, lesson])),
@@ -170,10 +174,20 @@ function App() {
   const unlockedSpaceLessonIds = useMemo(() => {
     const completed = new Set(spaceCompletedIds);
     const firstIncomplete = spaceExplorerLessons.findIndex((lesson) => !completed.has(lesson.id));
-    return spaceExplorerLessons
+    const unlocked = new Set(spaceExplorerLessons
       .filter((lesson, index) => firstIncomplete < 0 || index <= firstIncomplete || completed.has(lesson.id))
-      .map((lesson) => lesson.id);
-  }, [spaceCompletedIds]);
+      .map((lesson) => lesson.id));
+    if (spaceModule2Early) {
+      const module2Lessons = spaceExplorerLessons.slice(4, 8);
+      const firstModule2Incomplete = module2Lessons.findIndex((lesson) => !completed.has(lesson.id));
+      module2Lessons.forEach((lesson, index) => {
+        if (firstModule2Incomplete < 0 || index <= firstModule2Incomplete || completed.has(lesson.id)) {
+          unlocked.add(lesson.id);
+        }
+      });
+    }
+    return [...unlocked];
+  }, [spaceCompletedIds, spaceModule2Early]);
   const isLessonUnlocked = (lessonId: string) =>
     lessonId.startsWith('space-')
       ? unlockedSpaceLessonIds.includes(lessonId)
@@ -204,6 +218,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem(spaceProjectRunsKey, String(spaceProjectTestRuns));
   }, [spaceProjectTestRuns]);
+
+  useEffect(() => {
+    localStorage.setItem(spaceModule2Key, spaceModule2Early ? 'yes' : 'no');
+  }, [spaceModule2Early]);
 
   useEffect(() => {
     musicMutedRef.current = musicMuted;
@@ -844,6 +862,8 @@ function App() {
       <SpaceExplorer
         completedIds={spaceCompletedIds}
         projectTestRuns={spaceProjectTestRuns}
+        module2Early={spaceModule2Early}
+        onOpenModule2={() => setSpaceModule2Early(true)}
         onOpenMission={handleSpaceMissionOpen}
         onHome={showHome}
       />
