@@ -16,6 +16,10 @@ type OutputPanelProps = {
   sprites: StageSprite[];
   activeSpriteId: string;
   activeBackdropId: string;
+  missionCompletion?: {
+    label: string;
+    onContinue: () => void;
+  };
   onAddSprite: (characterId: string) => void;
   onSelectSprite: (spriteId: string) => void;
   onRemoveSprite: (spriteId: string) => void;
@@ -43,6 +47,7 @@ export function OutputPanel({
   sprites,
   activeSpriteId,
   activeBackdropId,
+  missionCompletion,
   onAddSprite,
   onSelectSprite,
   onRemoveSprite,
@@ -289,6 +294,14 @@ export function OutputPanel({
         <div className="stage-output">
           <span>Text Output</span>
           <pre className="console-output">{consoleOutput || status || 'Press Play to see output here.'}</pre>
+          {missionCompletion ? (
+            <div className="space-mission-result">
+              <span role="status">Mission complete</span>
+              <button type="button" className="button small primary" onClick={missionCompletion.onContinue}>
+                {missionCompletion.label}
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
 

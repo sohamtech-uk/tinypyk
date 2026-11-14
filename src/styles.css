@@ -5882,14 +5882,22 @@ button {
 }
 .hero-actions .space-home-action { background: #fdd16a; color: #1c2550; }
 .space-learning-banner {
+  grid-column: 1 / -1;
   display: flex; align-items: center; justify-content: space-between; gap: 22px;
-  padding: 18px 22px; margin-bottom: 22px; border-radius: 20px;
+  padding: 18px 22px; border-radius: 20px;
   background: linear-gradient(110deg, #1d2e69, #473477); color: white;
 }
 .space-learning-banner div { display: flex; flex-direction: column; gap: 4px; }
 .space-learning-banner strong { font-size: 1.1rem; }
 .space-learning-banner span { color: #dce7fb; }
 .space-learning-banner button { margin-top: 0; white-space: nowrap; }
+.space-mission-result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
 .space-lesson-back {
   width: 100%; background: #263c72; border: 1px solid #6f91e4;
   color: #fff; padding: 11px 16px; border-radius: 12px;

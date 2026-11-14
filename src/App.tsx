@@ -16,7 +16,7 @@ import { SpriteAssetPanel } from './components/SpriteAssetPanel';
 import { RepositoryDialog } from './components/RepositoryDialog';
 import { CompletionDialog } from './components/CompletionDialog';
 import { SpaceExplorer } from './components/SpaceExplorer';
-import { spaceExplorerLessons, spaceExplorerProjectId } from './space/spaceExplorer';
+import { spaceExplorerLessons, spaceExplorerModules, spaceExplorerProjectId } from './space/spaceExplorer';
 import { checkSpaceMission } from './space/spaceValidation';
 import { firstLesson, lessons, projectPaths } from './lessons/lessons';
 import { getTinyPykSound, playTinyPykSound, stopTinyPykSounds } from './runtime/musicPlayer';
@@ -56,6 +56,7 @@ type CompletionState = {
   exerciseTitle?: string;
   nextExerciseId?: string;
   nextLessonId?: string;
+  celebrationOpen?: boolean;
 };
 
 const toFileSlug = (value: string, fallback: string) => {
@@ -165,6 +166,7 @@ function App() {
 
     return exercises.find((exercise) => exercise.id === selectedExerciseId) ?? exercises[0];
   }, [currentLesson, selectedExerciseId]);
+  const isSpaceMission = currentLesson.id.startsWith('space-');
 
   const activeSprite = useMemo(
     () => stageSprites.find((sprite) => sprite.uid === activeSpriteId) ?? stageSprites[0],
@@ -507,6 +509,7 @@ function App() {
     resetRuntimeSoundQueue();
     setConsoleOutput('');
     setStatus('');
+    setCompletionState(null);
     setInputPrompt('');
     setInputValue('');
     resetTurtle();
@@ -673,7 +676,6 @@ function App() {
     }
 
     if (result === 'finished') {
-      const isSpaceMission = currentLesson.id.startsWith('space-');
       if (isSpaceMission) {
         const check = checkSpaceMission(currentLesson.id, generatedPython);
         if (!check.ok) {
@@ -841,6 +843,25 @@ function App() {
     resetOutput();
     setStatus(`Opened ${nextLesson.title}.`);
     scrollEditorToTop();
+  };
+
+  const nextSpaceMissionId = completionState?.nextLessonId;
+  const canContinueSpaceMission = Boolean(nextSpaceMissionId && unlockedSpaceLessonIds.includes(nextSpaceMissionId));
+  const moduleFinished = spaceExplorerModules.some((module) => module.lessonIds.at(-1) === currentLesson.id);
+  const openFinalProject = nextSpaceMissionId === spaceExplorerProjectId;
+  let spaceContinuationLabel = 'Back to Space Explorer';
+  if (canContinueSpaceMission) {
+    spaceContinuationLabel = openFinalProject ? 'Final project' : moduleFinished ? 'Next module' : 'Next mission';
+  }
+
+  const continueSpaceMission = () => {
+    if (!canContinueSpaceMission) {
+      showSpaceExplorer();
+    } else if (moduleFinished && completionState) {
+      setCompletionState({ ...completionState, celebrationOpen: true });
+    } else {
+      handleCompletionNextLevel();
+    }
   };
 
   if (view === 'home') {
@@ -1027,6 +1048,10 @@ function App() {
             sprites={stageSprites}
             activeSpriteId={activeSpriteId}
             activeBackdropId={activeBackdropId}
+            missionCompletion={isSpaceMission && completionState ? {
+              label: spaceContinuationLabel,
+              onContinue: continueSpaceMission,
+            } : undefined}
             onAddSprite={handleAddSprite}
             onSelectSprite={setActiveSpriteId}
             onRemoveSprite={handleRemoveSprite}
@@ -1085,20 +1110,23 @@ function App() {
         />
       ) : null}
 
-      {completionState ? (
+      {completionState && (!isSpaceMission || completionState.celebrationOpen) ? (
         <CompletionDialog
           lessonTitle={completionState.lessonTitle}
           exerciseTitle={completionState.exerciseTitle}
           hasNextQuest={Boolean(completionState.nextExerciseId)}
           hasNextLevel={Boolean(completionState.nextLessonId)}
+          nextLevelLabel={isSpaceMission
+            ? (openFinalProject ? 'Open final project' : 'Start Module 2')
+            : undefined}
           onNextQuest={handleCompletionNextQuest}
           onNextLevel={handleCompletionNextLevel}
           onLevels={() => {
             setCompletionState(null);
-            if (currentLesson.id.startsWith('space-')) showSpaceExplorer();
+            if (isSpaceMission) showSpaceExplorer();
             else showLevels();
           }}
-          onClose={() => setCompletionState(null)}
+          onClose={() => setCompletionState(isSpaceMission ? { ...completionState, celebrationOpen: false } : null)}
         />
       ) : null}
     </div>
