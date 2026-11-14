@@ -9,6 +9,7 @@ type LessonPanelProps = {
   onLessonChange: (lessonId: string) => void;
   onExerciseChange: (exerciseId: string) => void;
   onToggleHint: () => void;
+  onBackToSpaceExplorer?: () => void;
 };
 
 export function LessonPanel({
@@ -20,6 +21,7 @@ export function LessonPanel({
   onLessonChange,
   onExerciseChange,
   onToggleHint,
+  onBackToSpaceExplorer,
 }: LessonPanelProps) {
   const unlockedLessons = lessons.filter((lesson) => unlockedLessonIds.includes(lesson.id));
   const exercises = currentLesson.exercises ?? [];
@@ -30,6 +32,11 @@ export function LessonPanel({
 
   return (
     <section className="lesson-panel">
+      {currentLesson.id.startsWith('space-') && onBackToSpaceExplorer ? (
+        <button type="button" className="space-lesson-back" onClick={onBackToSpaceExplorer}>
+          ← Space Explorer missions
+        </button>
+      ) : null}
       <div className="lesson-selector">
         <label htmlFor="lesson-select">Level</label>
         <select
