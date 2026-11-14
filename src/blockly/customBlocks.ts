@@ -2,7 +2,6 @@ import * as Blockly from 'blockly/core';
 import { scratchPalette } from './scratchPalette';
 
 const motionColour = scratchPalette.motion;
-const eventsColour = scratchPalette.events;
 const looksColour = scratchPalette.looks;
 const soundColour = scratchPalette.sound;
 const controlColour = scratchPalette.control;
@@ -20,9 +19,10 @@ export function registerCustomBlocks() {
   Blockly.common.defineBlocksWithJsonArray([
     {
       type: 'start_program',
-      message0: 'when green flag clicked',
+      message0: '%1',
+      args0: [{ type: 'field_label', text: 'when green flag clicked', class: 'green-flag-block-label' }],
       nextStatement: null,
-      colour: eventsColour,
+      colour: scratchPalette.greenFlag,
       tooltip: 'The first block in your program.',
       helpUrl: '',
     },
