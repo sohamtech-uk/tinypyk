@@ -8,6 +8,28 @@ The project is designed for supervised learning with children around ages 5 to
 7. It is not a social network, and it should not collect children's personal
 information.
 
+## New: Space Explorer course
+
+The **Space Explorer** pathway offers two modules (Python basics and reusable
+functions), eight short guided missions, an original final project, and a
+printable classroom certificate. It is designed for mixed-experience groups:
+new joiners can learn the basics while returning learners move into functions.
+
+Open the course from the homepage or the learning map. Progress is kept
+separately from the main 17-level course in local browser storage. The final
+project must run twice and pass basic structural checks before a volunteer
+can review it and print the certificate. No child account is required.
+
+See [the facilitator guide](docs/SPACE_EXPLORER.md) for lesson objectives,
+assessment limitations, and classroom testing guidance.
+
+## Blockly dependency
+
+The existing editor currently uses **Blockly 13.2.1**. Blockly 13.4.0 is
+available, but upgrading should be a separate tested change so saved
+workspace XML and the custom block generators can be regression-checked.
+
+
 ## What TinyPyk Teaches
 
 - Real Python ideas introduced gently, starting with `print()`.
