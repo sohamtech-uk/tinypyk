@@ -19,7 +19,8 @@ Space Explorer is an independent Python pathway for mixed-experience Harrow Code
 ### Supporting mixed-ability groups
 
 - New joiners start Module 1 independently or with a volunteer.
-- Returning learners proceed to Module 2 after completing Module 1.
+- Returning learners can choose **Start Module 2** early without waiting to complete Module 1; all missions in both modules are still needed for the final certificate.
+- Space Explorer Blockly drafts are saved on this device when learners press Play or navigate between missions.
 - Children may revisit completed missions to improve code.
 - Each mission includes starter Blockly code; ask learners to change it rather than merely press Play.
 - Ask children to use invented astronaut nicknames, never real personal details.
