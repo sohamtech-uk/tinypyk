@@ -1,5 +1,6 @@
 export const scratchPalette = {
   events: '#ffbf00',
+  greenFlag: '#49c66f',
   motion: '#4c97ff',
   looks: '#9966ff',
   sound: '#cf63cf',

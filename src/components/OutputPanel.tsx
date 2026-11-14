@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, type CSSProperties } from 'react';
 import { backdrops, characterLibrary, getCharacter, type StageSprite } from '../studio/characters';
+import { scratchPalette } from '../blockly/scratchPalette';
 import { CharacterAvatar } from './CharacterAvatar';
 import { CoachPanel } from './CoachPanel';
 
@@ -16,8 +17,9 @@ type OutputPanelProps = {
   sprites: StageSprite[];
   activeSpriteId: string;
   activeBackdropId: string;
-  missionCompletion?: {
+  missionContinuation?: {
     label: string;
+    completed: boolean;
     onContinue: () => void;
   };
   onAddSprite: (characterId: string) => void;
@@ -47,7 +49,7 @@ export function OutputPanel({
   sprites,
   activeSpriteId,
   activeBackdropId,
-  missionCompletion,
+  missionContinuation,
   onAddSprite,
   onSelectSprite,
   onRemoveSprite,
@@ -172,7 +174,7 @@ export function OutputPanel({
               disabled={isRunning}
               aria-label="Play project"
             >
-              <svg aria-hidden="true" viewBox="0 0 28 28">
+              <svg aria-hidden="true" viewBox="0 0 28 28" style={{ fill: scratchPalette.greenFlag }}>
                 <path d="M7 23V5" />
                 <path d="M8 6c4-3 8 2 13-1v12c-5 3-9-2-13 1Z" />
               </svg>
@@ -294,11 +296,16 @@ export function OutputPanel({
         <div className="stage-output">
           <span>Text Output</span>
           <pre className="console-output">{consoleOutput || status || 'Press Play to see output here.'}</pre>
-          {missionCompletion ? (
+          {missionContinuation ? (
             <div className="space-mission-result">
-              <span role="status">Mission complete</span>
-              <button type="button" className="button small primary" onClick={missionCompletion.onContinue}>
-                {missionCompletion.label}
+              <span role="status">{missionContinuation.completed ? 'Mission complete' : 'Finish the mission to continue'}</span>
+              <button
+                type="button"
+                className="button small primary"
+                onClick={missionContinuation.onContinue}
+                disabled={isRunning || !missionContinuation.completed}
+              >
+                {missionContinuation.label}
               </button>
             </div>
           ) : null}

@@ -4046,7 +4046,6 @@ button {
 .stage-control-button.play svg {
   width: 26px;
   height: 26px;
-  fill: #49c66f;
   stroke: #218c49;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -4908,6 +4907,10 @@ button {
   padding-top: 7px;
   padding-bottom: 7px;
   white-space: normal;
+}
+
+.blocklyText.green-flag-block-label {
+  fill: #153822;
 }
 
 .blocklyFlyoutBackground {
