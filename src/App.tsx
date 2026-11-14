@@ -15,6 +15,9 @@ import { PolicyPage } from './components/PolicyPage';
 import { SpriteAssetPanel } from './components/SpriteAssetPanel';
 import { RepositoryDialog } from './components/RepositoryDialog';
 import { CompletionDialog } from './components/CompletionDialog';
+import { SpaceExplorer } from './components/SpaceExplorer';
+import { spaceExplorerLessons, spaceExplorerProjectId } from './space/spaceExplorer';
+import { checkSpaceMission } from './space/spaceValidation';
 import { firstLesson, lessons, projectPaths } from './lessons/lessons';
 import { getTinyPykSound, playTinyPykSound, stopTinyPykSounds } from './runtime/musicPlayer';
 import { runPython } from './runtime/skulptRunner';
@@ -22,9 +25,24 @@ import { makeStageSprite, type StageSprite } from './studio/characters';
 import tinyPykMark from './assets/tinypyk-mark.svg';
 
 const completedLessonsKey = 'tinypyk-python-levels-completed-v2';
+const spaceCompletedKey = 'tinypyk-space-explorer-completed-v1';
+const spaceProjectRunsKey = 'tinypyk-space-explorer-project-tests-v1';
+const spaceDraftsKey = 'tinypyk-space-explorer-drafts-v1';
+const spaceModule2Key = 'tinypyk-space-explorer-module-2-early-v1';
+
+function readSpaceDraft(lessonId: string): string | undefined {
+  try {
+    const stored = JSON.parse(localStorage.getItem(spaceDraftsKey) || '{}') as unknown;
+    if (!stored || typeof stored !== 'object' || Array.isArray(stored)) return undefined;
+    const xml = (stored as Record<string, unknown>)[lessonId];
+    return typeof xml === 'string' && xml.trim() ? xml : undefined;
+  } catch {
+    return undefined;
+  }
+}
 const tutorialSeenKey = 'tinypyk-tutorial-seen';
 const stopSignal = 'TINYPYK_STOP';
-type AppView = 'home' | 'learn' | 'admin' | 'membership' | 'policies';
+type AppView = 'home' | 'learn' | 'space' | 'admin' | 'membership' | 'policies';
 type LearnMode = 'path' | 'editor';
 type EditorTab = 'code' | 'costumes' | 'sounds';
 type RepositorySnapshot = {
@@ -54,6 +72,10 @@ const getViewFromHash = (): AppView => {
 
   if (hash === '#learn') {
     return 'learn';
+  }
+
+  if (hash === '#space-explorer') {
+    return 'space';
   }
 
   if (hash === '#admin') {
@@ -109,9 +131,24 @@ function App() {
     const saved = localStorage.getItem(completedLessonsKey);
     return saved ? JSON.parse(saved) as string[] : [];
   });
+  const [spaceCompletedIds, setSpaceCompletedIds] = useState<string[]>(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(spaceCompletedKey) || '[]') as unknown;
+      return Array.isArray(saved) ? saved.filter((id): id is string => typeof id === 'string') : [];
+    } catch {
+      return [];
+    }
+  });
+  const [spaceProjectTestRuns, setSpaceProjectTestRuns] = useState<number>(() => {
+    const value = Number(localStorage.getItem(spaceProjectRunsKey) || 0);
+    return Number.isFinite(value) ? Math.min(2, Math.max(0, value)) : 0;
+  });
+  const [spaceModule2Early, setSpaceModule2Early] = useState(
+    () => localStorage.getItem(spaceModule2Key) === 'yes',
+  );
 
   const lessonMap = useMemo(
-    () => new Map(lessons.map((lesson) => [lesson.id, lesson])),
+    () => new Map([...lessons, ...spaceExplorerLessons].map((lesson) => [lesson.id, lesson])),
     [],
   );
 
@@ -134,11 +171,57 @@ function App() {
     [activeSpriteId, stageSprites],
   );
 
-  const isLessonUnlocked = (lessonId: string) => unlockedLessonIds.includes(lessonId);
+  const unlockedSpaceLessonIds = useMemo(() => {
+    const completed = new Set(spaceCompletedIds);
+    const firstIncomplete = spaceExplorerLessons.findIndex((lesson) => !completed.has(lesson.id));
+    const unlocked = new Set(spaceExplorerLessons
+      .filter((lesson, index) => firstIncomplete < 0 || index <= firstIncomplete || completed.has(lesson.id))
+      .map((lesson) => lesson.id));
+    if (spaceModule2Early) {
+      const module2Lessons = spaceExplorerLessons.slice(4, 8);
+      const firstModule2Incomplete = module2Lessons.findIndex((lesson) => !completed.has(lesson.id));
+      module2Lessons.forEach((lesson, index) => {
+        if (firstModule2Incomplete < 0 || index <= firstModule2Incomplete || completed.has(lesson.id)) {
+          unlocked.add(lesson.id);
+        }
+      });
+    }
+    return [...unlocked];
+  }, [spaceCompletedIds, spaceModule2Early]);
+  const isLessonUnlocked = (lessonId: string) =>
+    lessonId.startsWith('space-')
+      ? unlockedSpaceLessonIds.includes(lessonId)
+      : unlockedLessonIds.includes(lessonId);
+
+  const saveCurrentSpaceDraft = () => {
+    if (!currentLesson.id.startsWith('space-')) return;
+    const xml = workspaceRef.current?.getXml();
+    if (!xml) return;
+    try {
+      const saved = JSON.parse(localStorage.getItem(spaceDraftsKey) || '{}') as unknown;
+      const drafts = saved && typeof saved === 'object' && !Array.isArray(saved)
+        ? saved as Record<string, unknown> : {};
+      localStorage.setItem(spaceDraftsKey, JSON.stringify({ ...drafts, [currentLesson.id]: xml }));
+    } catch {
+      // Device storage can be unavailable; learners may still use Save to computer.
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem(completedLessonsKey, JSON.stringify(completedLessonIds));
   }, [completedLessonIds]);
+
+  useEffect(() => {
+    localStorage.setItem(spaceCompletedKey, JSON.stringify(spaceCompletedIds));
+  }, [spaceCompletedIds]);
+
+  useEffect(() => {
+    localStorage.setItem(spaceProjectRunsKey, String(spaceProjectTestRuns));
+  }, [spaceProjectTestRuns]);
+
+  useEffect(() => {
+    localStorage.setItem(spaceModule2Key, spaceModule2Early ? 'yes' : 'no');
+  }, [spaceModule2Early]);
 
   useEffect(() => {
     musicMutedRef.current = musicMuted;
@@ -181,6 +264,7 @@ function App() {
   }, []);
 
   const showHome = () => {
+    saveCurrentSpaceDraft();
     window.location.hash = 'home';
     setView('home');
     setLearnMode('path');
@@ -191,8 +275,20 @@ function App() {
   };
 
   const showLearning = () => {
+    saveCurrentSpaceDraft();
     window.location.hash = 'learn';
     setView('learn');
+    setLearnMode('path');
+    setShowTutorial(false);
+    setShowExtensions(false);
+    setRepositorySnapshot(null);
+    setCompletionState(null);
+  };
+
+  const showSpaceExplorer = () => {
+    saveCurrentSpaceDraft();
+    window.location.hash = 'space-explorer';
+    setView('space');
     setLearnMode('path');
     setShowTutorial(false);
     setShowExtensions(false);
@@ -220,6 +316,7 @@ function App() {
   };
 
   const showLevels = () => {
+    saveCurrentSpaceDraft();
     window.location.hash = 'learn';
     setView('learn');
     setLearnMode('path');
@@ -546,6 +643,7 @@ function App() {
       return;
     }
 
+    saveCurrentSpaceDraft();
     resetOutput();
     resetRuntimeSoundQueue();
     if (!generatedPython.trim()) {
@@ -575,20 +673,39 @@ function App() {
     }
 
     if (result === 'finished') {
-      setStatus('Finished.');
-      setCompletedLessonIds((lessonIds) =>
-        lessonIds.includes(currentLesson.id)
-          ? lessonIds
-          : [...lessonIds, currentLesson.id],
-      );
+      const isSpaceMission = currentLesson.id.startsWith('space-');
+      if (isSpaceMission) {
+        const check = checkSpaceMission(currentLesson.id, generatedPython);
+        if (!check.ok) {
+          setStatus('Mission checkpoint: ' + check.feedback);
+          return;
+        }
+        if (currentLesson.id === spaceExplorerProjectId) {
+          if (spaceProjectTestRuns < 1) {
+            setSpaceProjectTestRuns(1);
+            setStatus('Great first test! Run your complete project again with a different planet before earning the certificate.');
+            return;
+          }
+          setSpaceProjectTestRuns(2);
+        }
+        setSpaceCompletedIds((ids) =>
+          ids.includes(currentLesson.id) ? ids : [...ids, currentLesson.id],
+        );
+      } else {
+        setCompletedLessonIds((ids) =>
+          ids.includes(currentLesson.id) ? ids : [...ids, currentLesson.id],
+        );
+      }
+      setStatus('Finished. Mission passed!');
 
       const exercises = currentLesson.exercises ?? [];
       const exerciseIndex = currentExercise
         ? exercises.findIndex((exercise) => exercise.id === currentExercise.id)
         : -1;
       const nextExercise = exerciseIndex >= 0 ? exercises[exerciseIndex + 1] : undefined;
-      const lessonIndex = lessons.findIndex((lesson) => lesson.id === currentLesson.id);
-      const nextLesson = lessonIndex >= 0 ? lessons[lessonIndex + 1] : undefined;
+      const courseLessons = isSpaceMission ? spaceExplorerLessons : lessons;
+      const lessonIndex = courseLessons.findIndex((lesson) => lesson.id === currentLesson.id);
+      const nextLesson = lessonIndex >= 0 ? courseLessons[lessonIndex + 1] : undefined;
 
       setCompletionState({
         lessonTitle: currentLesson.title,
@@ -616,6 +733,7 @@ function App() {
   };
 
   const handleLessonChange = (lessonId: string) => {
+    saveCurrentSpaceDraft();
     const lesson = lessonMap.get(lessonId);
     if (!lesson) {
       return;
@@ -631,7 +749,7 @@ function App() {
     setLearnMode('editor');
     setShowHint(false);
     setCompletionState(null);
-    loadXmlIntoWorkspace(lesson.starterXml);
+    loadXmlIntoWorkspace(readSpaceDraft(lesson.id) || lesson.starterXml);
     resetOutput();
     scrollEditorToTop();
   };
@@ -652,6 +770,22 @@ function App() {
     }
 
     setStatus(`Exercise: ${exercise.title}`);
+    scrollEditorToTop();
+  };
+
+  const handleSpaceMissionOpen = (lessonId: string) => {
+    const lesson = spaceExplorerLessons.find((item) => item.id === lessonId);
+    if (!lesson || !isLessonUnlocked(lessonId)) return;
+    window.history.pushState(null, '', '#learn');
+    setView('learn');
+    setLearnMode('editor');
+    setCurrentLesson(lesson);
+    setSelectedExerciseId('');
+    setShowHint(false);
+    setCompletionState(null);
+    loadXmlIntoWorkspace(readSpaceDraft(lesson.id) || lesson.starterXml);
+    resetOutput();
+    setStatus('Space Explorer: ' + lesson.title);
     scrollEditorToTop();
   };
 
@@ -683,6 +817,7 @@ function App() {
   };
 
   const handleCompletionNextLevel = () => {
+    saveCurrentSpaceDraft();
     const nextLesson = completionState?.nextLessonId
       ? lessonMap.get(completionState.nextLessonId)
       : undefined;
@@ -690,7 +825,8 @@ function App() {
     setCompletionState(null);
 
     if (!nextLesson) {
-      showLevels();
+      if (currentLesson.id.startsWith('space-')) showSpaceExplorer();
+      else showLevels();
       return;
     }
 
@@ -701,7 +837,7 @@ function App() {
     setShowTutorial(false);
     setShowExtensions(false);
     setRepositorySnapshot(null);
-    loadXmlIntoWorkspace(nextLesson.starterXml);
+    loadXmlIntoWorkspace(readSpaceDraft(nextLesson.id) || nextLesson.starterXml);
     resetOutput();
     setStatus(`Opened ${nextLesson.title}.`);
     scrollEditorToTop();
@@ -714,8 +850,22 @@ function App() {
         lessons={lessons}
         projectPaths={projectPaths}
         onStartLearning={showLearning}
+        onStartSpaceExplorer={showSpaceExplorer}
         onOpenProject={handleHomeProjectOpen}
         onJoin={showMembership}
+      />
+    );
+  }
+
+  if (view === 'space') {
+    return (
+      <SpaceExplorer
+        completedIds={spaceCompletedIds}
+        projectTestRuns={spaceProjectTestRuns}
+        module2Early={spaceModule2Early}
+        onOpenModule2={() => setSpaceModule2Early(true)}
+        onOpenMission={handleSpaceMissionOpen}
+        onHome={showHome}
       />
     );
   }
@@ -761,6 +911,7 @@ function App() {
           completedLessonIds={completedLessonIds}
           unlockedLessonIds={unlockedLessonIds}
           onLessonChange={handleLessonChange}
+          onSpaceExplorer={showSpaceExplorer}
         />
 
         {showTutorial ? (
@@ -898,14 +1049,15 @@ function App() {
       </div>
 
       <LessonPanel
-        lessons={lessons}
+        lessons={currentLesson.id.startsWith('space-') ? spaceExplorerLessons : lessons}
         currentLesson={currentLesson}
         currentExercise={currentExercise}
         showHint={showHint}
         onLessonChange={handleLessonChange}
         onExerciseChange={handleExerciseChange}
         onToggleHint={() => setShowHint((value) => !value)}
-        unlockedLessonIds={unlockedLessonIds}
+        unlockedLessonIds={currentLesson.id.startsWith('space-') ? unlockedSpaceLessonIds : unlockedLessonIds}
+        onBackToSpaceExplorer={showSpaceExplorer}
       />
 
       {showTutorial ? (
@@ -943,7 +1095,8 @@ function App() {
           onNextLevel={handleCompletionNextLevel}
           onLevels={() => {
             setCompletionState(null);
-            showLevels();
+            if (currentLesson.id.startsWith('space-')) showSpaceExplorer();
+            else showLevels();
           }}
           onClose={() => setCompletionState(null)}
         />

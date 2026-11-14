@@ -11,6 +11,7 @@ type LearningMapProps = {
   completedLessonIds: string[];
   unlockedLessonIds: string[];
   onLessonChange: (lessonId: string) => void;
+  onSpaceExplorer: () => void;
 };
 
 export function LearningMap({
@@ -20,6 +21,7 @@ export function LearningMap({
   completedLessonIds,
   unlockedLessonIds,
   onLessonChange,
+  onSpaceExplorer,
 }: LearningMapProps) {
   const initialPathId =
     projectPaths.find((path) => path.lessonIds.includes(currentLessonId))?.id ??
@@ -88,6 +90,12 @@ export function LearningMap({
 
   return (
     <section className="learning-map" aria-label="Learning path">
+      <aside className="space-learning-banner">
+        <div><strong>🚀 Space Explorer · two modules + final project</strong>
+          <span>New learners start with Python basics; returning learners practice functions and earn a printable certificate.</span>
+        </div>
+        <button type="button" onClick={onSpaceExplorer}>Open Space Explorer</button>
+      </aside>
       <div className="course-summary">
         <div>
           <p className="eyebrow">Python adventure</p>

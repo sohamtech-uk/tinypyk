@@ -108,6 +108,22 @@ export function registerPythonGenerators() {
 
   pythonGenerator.forBlock.function_call_simple = (block) =>
     `${toPythonName(block.getFieldValue('NAME') || 'helper')}()\n`;
+
+  pythonGenerator.forBlock.function_define_with_parameter = (block, generator) => {
+    const name = toPythonName(block.getFieldValue('NAME') || 'visit');
+    const parameter = toPythonName(block.getFieldValue('PARAM') || 'planet');
+    const body = statementOrPass(block, generator, 'DO');
+    return 'def ' + name + '(' + parameter + '):\n' + body + '\n';
+  };
+
+  pythonGenerator.forBlock.function_call_with_argument = (block, generator) => {
+    const name = toPythonName(block.getFieldValue('NAME') || 'visit');
+    const argument = generator.valueToCode(block, 'ARGUMENT', Order.NONE) || '""';
+    return name + '(' + argument + ')\n';
+  };
+
+  pythonGenerator.forBlock.function_parameter = (block) =>
+    [toPythonName(block.getFieldValue('NAME') || 'planet'), Order.ATOMIC];
 }
 
 export { Order, pythonGenerator };

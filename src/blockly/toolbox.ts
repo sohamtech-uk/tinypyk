@@ -167,6 +167,13 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
       contents: [
         { kind: 'block', type: 'function_define_simple' },
         { kind: 'block', type: 'function_call_simple' },
+        { kind: 'block', type: 'function_define_with_parameter' },
+        {
+          kind: 'block',
+          type: 'function_call_with_argument',
+          inputs: { ARGUMENT: { shadow: { type: 'text', fields: { TEXT: 'Mars' } } } },
+        },
+        { kind: 'block', type: 'function_parameter' },
       ],
     },
     {
@@ -182,6 +189,13 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
           contents: [
             { kind: 'block', type: 'function_define_simple' },
             { kind: 'block', type: 'function_call_simple' },
+        { kind: 'block', type: 'function_define_with_parameter' },
+        {
+          kind: 'block',
+          type: 'function_call_with_argument',
+          inputs: { ARGUMENT: { shadow: { type: 'text', fields: { TEXT: 'Mars' } } } },
+        },
+        { kind: 'block', type: 'function_parameter' },
           ],
         },
         {

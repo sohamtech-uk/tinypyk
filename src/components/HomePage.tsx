@@ -11,6 +11,7 @@ type HomePageProps = {
   lessons: Lesson[];
   projectPaths: ProjectPath[];
   onStartLearning: () => void;
+  onStartSpaceExplorer: () => void;
   onOpenProject: (lessonId: string) => void;
   onJoin: () => void;
 };
@@ -152,6 +153,7 @@ export function HomePage({
   lessons,
   projectPaths,
   onStartLearning,
+  onStartSpaceExplorer,
   onOpenProject,
   onJoin,
 }: HomePageProps) {
@@ -220,6 +222,7 @@ export function HomePage({
             </span>
             <div className="hero-actions">
               <button type="button" onClick={onStartLearning}>Start Creating</button>
+              <button type="button" className="space-home-action" onClick={onStartSpaceExplorer}>🚀 Space Explorer</button>
               <a
                 href="#membership"
                 onClick={(event) => {
@@ -254,6 +257,16 @@ export function HomePage({
               <h3>Play Python</h3>
               <p>Press Play to see real Python output from the first level.</p>
             </article>
+          </div>
+        </section>
+
+        <section className="space-home-promo" aria-labelledby="space-home-heading">
+          <img src={spaceSprite} alt="Space Explorer character" />
+          <div>
+            <p>NEW · TWO-MODULE PYTHON COURSE</p>
+            <h2 id="space-home-heading">Your Space Explorer journey starts here</h2>
+            <span>Module 1 teaches Python basics. Module 2 introduces functions and parameters. Build a final space mission to earn a printable completion certificate.</span>
+            <button type="button" onClick={onStartSpaceExplorer}>Explore the space course 🚀</button>
           </div>
         </section>
 
