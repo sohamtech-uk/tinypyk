@@ -24,6 +24,11 @@ jobs:
         run: npm run build
       - name: Lint
         run: npm run lint
+      - name: Include protection for the server-side secrets directory
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          mkdir -p dist/private
+          cp public/private/.htaccess dist/private/.htaccess
       - name: Upload production website files
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-artifact@v4
