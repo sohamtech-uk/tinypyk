@@ -24,3 +24,11 @@ jobs:
         run: npm run build
       - name: Lint
         run: npm run lint
+      - name: Upload production website files
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tinypyk-production-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
