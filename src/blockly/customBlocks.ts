@@ -266,5 +266,41 @@ export function registerCustomBlocks() {
       tooltip: 'Run a Python function you defined.',
       helpUrl: '',
     },
+    {
+      type: 'function_define_with_parameter',
+      message0: 'define function %1 with parameter %2 do %3',
+      args0: [
+        { type: 'field_input', name: 'NAME', text: 'visit' },
+        { type: 'field_input', name: 'PARAM', text: 'planet' },
+        { type: 'input_statement', name: 'DO' },
+      ],
+      previousStatement: null,
+      nextStatement: null,
+      colour: myBlocksColour,
+      tooltip: 'Define a Python function that accepts one named parameter.',
+      helpUrl: '',
+    },
+    {
+      type: 'function_call_with_argument',
+      message0: 'call function %1 with %2',
+      args0: [
+        { type: 'field_input', name: 'NAME', text: 'visit' },
+        { type: 'input_value', name: 'ARGUMENT' },
+      ],
+      previousStatement: null,
+      nextStatement: null,
+      colour: myBlocksColour,
+      tooltip: 'Send a value into a function parameter.',
+      helpUrl: '',
+    },
+    {
+      type: 'function_parameter',
+      message0: 'parameter %1',
+      args0: [{ type: 'field_input', name: 'NAME', text: 'planet' }],
+      output: null,
+      colour: myBlocksColour,
+      tooltip: 'Read the named parameter inside your function.',
+      helpUrl: '',
+    },
   ]);
 }
