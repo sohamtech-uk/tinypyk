@@ -2647,6 +2647,7 @@ button {
 }
 
 .level-shell {
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
 }
 
@@ -2661,6 +2662,10 @@ button {
   padding: 12px 18px;
   background: #ffffff;
   border-bottom: 3px solid #ffd166;
+}
+
+.level-landing-header .brand {
+  min-width: 0;
 }
 
 .level-landing-actions {
@@ -5068,7 +5073,7 @@ button {
   }
 
   .learning-map {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .path-options,
