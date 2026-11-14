@@ -36,4 +36,5 @@ jobs:
           name: tinypyk-production-dist
           path: dist/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14
