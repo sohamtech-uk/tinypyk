@@ -20,6 +20,11 @@ separately from the main 17-level course in local browser storage. The final
 project must run twice and pass basic structural checks before a volunteer
 can review it and print the certificate. No child account is required.
 
+Three **optional Bonus Missions** for fast finishers now follow the main project:
+Treasure Collector (scoring with return), Planet Explorer (loops and reuse),
+and Alien Quiz (questions and scores). They open in the Blockly editor and
+never affect the nine core missions or certificate eligibility.
+
 See [the facilitator guide](docs/SPACE_EXPLORER.md) for lesson objectives,
 assessment limitations, and classroom testing guidance.
 

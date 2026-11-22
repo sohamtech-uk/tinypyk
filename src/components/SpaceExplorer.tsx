@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import spaceSprite from '../assets/characters/space.png';
 import {
-  spaceExplorerLessonIds, spaceExplorerLessons, spaceExplorerModules, spaceExplorerProjectId,
+  spaceExplorerBonusLessons, spaceExplorerLessonIds, spaceExplorerLessons, spaceExplorerModules, spaceExplorerProjectId,
 } from '../space/spaceExplorer';
 import { SpaceExplorerCertificate } from './SpaceExplorerCertificate';
 
@@ -104,6 +104,33 @@ export function SpaceExplorer({ completedIds, projectTestRuns, module2Early, onO
           <button type="button" disabled={!isUnlocked(project.id)} onClick={() => onOpenMission(project.id)}>
             {completed.has(project.id) ? 'Replay project' : 'Build final project'}
           </button>
+        </section>
+
+        <section className="space-module-card space-bonus-section" aria-labelledby="bonus-missions-heading">
+          <div className="space-module-heading">
+            <span className="space-module-number" aria-hidden="true">★</span>
+            <div>
+              <p className="space-eyebrow">Optional · for early finishers</p>
+              <h3 id="bonus-missions-heading">Space Explorer Bonus Missions</h3>
+              <p>Finished Part 2? Try treasure scores, visit more planets or challenge a friend to an alien quiz.</p>
+              <small>Three independent challenges · available at any time · not required for the certificate</small>
+            </div>
+          </div>
+          <div className="space-mission-grid">
+            {spaceExplorerBonusLessons.map((lesson) => (
+              <article className={'space-mission-card' + (completed.has(lesson.id) ? ' is-complete' : '')} key={lesson.id}>
+                <span className="space-mission-status">
+                  {completed.has(lesson.id) ? '✓ Bonus completed' : '⭐ Optional challenge'}
+                </span>
+                <h4>{lesson.title}</h4>
+                <p>{lesson.goal}</p>
+                <span className="space-mission-duration">⏱ {lesson.duration}</span>
+                <button type="button" onClick={() => onOpenMission(lesson.id)}>
+                  {completed.has(lesson.id) ? 'Try again' : 'Start bonus mission'}
+                </button>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className={'space-award-card' + (allComplete ? ' award-ready' : '')}>

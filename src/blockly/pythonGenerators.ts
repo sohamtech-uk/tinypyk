@@ -124,6 +124,18 @@ export function registerPythonGenerators() {
 
   pythonGenerator.forBlock.function_parameter = (block) =>
     [toPythonName(block.getFieldValue('NAME') || 'planet'), Order.ATOMIC];
+
+  pythonGenerator.forBlock.function_return_value = (block, generator) =>
+    'return ' + (generator.valueToCode(block, 'VALUE', Order.NONE) || '0') + '\n';
+
+  pythonGenerator.forBlock.function_call_result_simple = (block) =>
+    [toPythonName(block.getFieldValue('NAME') || 'alien_quiz') + '()', Order.ATOMIC];
+
+  pythonGenerator.forBlock.function_call_with_result = (block, generator) => {
+    const name = toPythonName(block.getFieldValue('NAME') || 'collect_treasure');
+    const argument = generator.valueToCode(block, 'ARGUMENT', Order.NONE) || '""';
+    return [name + '(' + argument + ')', Order.ATOMIC];
+  };
 }
 
 export { Order, pythonGenerator };

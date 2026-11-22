@@ -16,6 +16,24 @@ Space Explorer is an independent Python pathway for mixed-experience Harrow Code
 | Module 2 | Two Planet Missions | reuse with different arguments |
 | Final project | Build Your Space Mission | apply all the above |
 
+### Optional bonus missions for fast finishers
+
+These three independent missions are available from the Space Explorer page at any time.
+They **do not count towards the nine core missions or the certificate**, and they
+do not require an account.
+
+| Bonus | Mission | New challenge |
+| --- | --- | --- |
+| 1 | Treasure Collector | Reuse a parameter function and return points for collected items |
+| 2 | Planet Explorer | Visit several planets with a reusable function and launch-check loop |
+| 3 | Alien Quiz | Ask a question, check if/else, and return a score |
+
+Each bonus has a Blockly starter, success checks, hints and opportunities for
+remixing. The new My Blocks return and value-call blocks generate Python
+`return` statements and allow results to be used in arithmetic and variables.
+Invite children to predict their output, run twice with different values, and
+explain the result to a peer or volunteer. The checks remain structural only.
+
 ### Supporting mixed-ability groups
 
 - New joiners start Module 1 independently or with a volunteer.
@@ -58,4 +76,7 @@ The project only marks complete after **two successful code runs** and lightweig
 - [ ] Certificate name stays in the form, and A4 landscape Print / Save as PDF works.
 - [ ] Reloading preserves completion progress on the same browser.
 - [ ] Existing saved Blockly project XML still loads.
+- [ ] Bonus missions open independently and their starter blocks run.
+- [ ] Treasure and Alien Quiz returned scores appear correctly; failed answers return zero.
+- [ ] Completing bonus missions does not affect 9-mission progress or certificate eligibility.
 - [ ] Mobile screen sizes remain usable.

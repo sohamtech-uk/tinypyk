@@ -174,6 +174,10 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
           inputs: { ARGUMENT: { shadow: { type: 'text', fields: { TEXT: 'Mars' } } } },
         },
         { kind: 'block', type: 'function_parameter' },
+        { kind: 'block', type: 'function_return_value', inputs: { VALUE: { shadow: { type: 'math_number', fields: { NUM: 5 } } } } },
+        { kind: 'block', type: 'function_call_result_simple' },
+        { kind: 'block', type: 'function_call_with_result',
+          inputs: { ARGUMENT: { shadow: { type: 'text', fields: { TEXT: 'Moon rock' } } } } },
       ],
     },
     {
@@ -196,6 +200,10 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
           inputs: { ARGUMENT: { shadow: { type: 'text', fields: { TEXT: 'Mars' } } } },
         },
         { kind: 'block', type: 'function_parameter' },
+        { kind: 'block', type: 'function_return_value', inputs: { VALUE: { shadow: { type: 'math_number', fields: { NUM: 5 } } } } },
+        { kind: 'block', type: 'function_call_result_simple' },
+        { kind: 'block', type: 'function_call_with_result',
+          inputs: { ARGUMENT: { shadow: { type: 'text', fields: { TEXT: 'Moon rock' } } } } },
           ],
         },
         {

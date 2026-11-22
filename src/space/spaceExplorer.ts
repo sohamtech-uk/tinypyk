@@ -60,6 +60,58 @@ const start = (content: string, names: string[] = []) =>
   '<block type="start_program" x="24" y="24">' + next(content) +
   '</block></xml>';
 
+
+// Optional bonus missions reuse the same Blockly workspace; these helpers only
+// build starter XML and do not change saved projects or certificate requirements.
+const numberBlock = (number: number) =>
+  '<block type="math_number"><field name="NUM">' + number + '</field></block>';
+const variableBlock = (variable: string) =>
+  '<block type="variables_get"><field name="VAR" id="' + variable +
+  '-id">' + variable + '</field></block>';
+const plusValues = (left: string, right: string) =>
+  '<block type="math_arithmetic"><field name="OP">ADD</field>' +
+  '<value name="A">' + left + '</value><value name="B">' + right + '</value></block>';
+const returnNumber = (number: number) =>
+  '<block type="function_return_value"><value name="VALUE">' +
+  numberBlock(number) + '</value></block>';
+const setVariable = (variable: string, value: string, following = '') =>
+  '<block type="variables_set"><field name="VAR" id="' + variable +
+  '-id">' + variable + '</field><value name="VALUE">' + value +
+  '</value>' + next(following) + '</block>';
+const returnedCall = (name: string, argument?: string) =>
+  argument === undefined
+    ? '<block type="function_call_result_simple"><field name="NAME">' +
+      name + '</field></block>'
+    : '<block type="function_call_with_result"><field name="NAME">' +
+      name + '</field><value name="ARGUMENT"><block type="text"><field name="TEXT">' +
+      escapeXml(argument) + '</field></block></value></block>';
+
+const treasureFunction = (following: string) =>
+  '<block type="function_define_with_parameter">' +
+  '<field name="NAME">collect_treasure</field><field name="PARAM">item</field>' +
+  '<statement name="DO"><block type="text_print"><value name="TEXT">' +
+  '<block type="function_parameter"><field name="NAME">item</field></block></value>' +
+  next(returnNumber(5)) + '</block></statement>' + next(following) + '</block>';
+const treasureStarter = start(treasureFunction(
+  setVariable('stars', numberBlock(0),
+    setVariable('stars', plusValues(variableBlock('stars'), returnedCall('collect_treasure', 'Moon rock')),
+      setVariable('stars', plusValues(variableBlock('stars'), returnedCall('collect_treasure', 'Alien crystal')),
+        printVariable('stars'))))), ['stars']);
+
+const quizChoice = (variable: string) =>
+  '<block type="control_if_else"><value name="IF">' +
+  compareText(variable, 'Mars') + '</value>' +
+  '<statement name="DO">' + returnNumber(10) + '</statement>' +
+  '<statement name="ELSE">' + returnNumber(0) + '</statement></block>';
+const quizFunction = (following: string) =>
+  '<block type="function_define_simple"><field name="NAME">alien_quiz</field>' +
+  '<statement name="DO">' +
+  ask('Which is the Red Planet? ', 'answer', quizChoice('answer')) +
+  '</statement>' + next(following) + '</block>';
+const quizStarter = start(quizFunction(
+  setVariable('stars', returnedCall('alien_quiz'), printVariable('stars'))),
+['answer', 'stars']);
+
 export const spaceExplorerProjectId = 'space-final-project';
 export const spaceExplorerModules = [
   {
@@ -203,6 +255,63 @@ export const spaceExplorerLessons: Lesson[] = [
       ask('Astronaut nickname: ', 'explorer', ask('Mars or Jupiter? ', 'planet'))),
     ['explorer', 'planet']),
   },
+  {
+    id: 'space-bonus-1', module: 'Space Explorer · Bonus Missions',
+    title: 'Bonus 1 · Treasure Collector', goal: 'Collect space treasures and earn stars.',
+    concept: 'parameters, return and scores', level: 'Stretch', duration: '10–15 min',
+    mission: 'Make collect_treasure(item) print an item and return five bonus stars.',
+    instructions: 'Run the starter with two treasures. Then change a treasure, add another call and experiment with the points awarded.',
+    successCriteria: 'Your function accepts an item, returns a number, and you add scores from at least two calls.',
+    hint: 'Look inside My Blocks for return value and call for value. return hands a score back to the stars calculation.',
+    steps: ['Read the collect_treasure function and its return block.',
+      'Press Play and check the total (10 stars).',
+      'Change an item or award 10 points instead of 5.',
+      'Add a third treasure and explain your new total.'],
+    vocabulary: ['parameter', 'return', 'score', 'variable'],
+    projectIdea: 'Invent a comet jewel, moon crystal or another treasure. Use pretend names only.',
+    starterXml: treasureStarter,
+  },
+  {
+    id: 'space-bonus-2', module: 'Space Explorer · Bonus Missions',
+    title: 'Bonus 2 · Planet Explorer', goal: 'Reuse a function and a countdown loop.',
+    concept: 'functions with parameters and loops', level: 'Stretch', duration: '10–15 min',
+    mission: 'Visit several planets using the same helper and repeat some launch checks.',
+    instructions: 'Try the three planet visits. Change their names, then move the repeat block or add your own planet.',
+    successCriteria: 'Your parameter function runs more than once and a loop repeats a launch check.',
+    hint: 'One define block is enough. Each call can supply a different planet name.',
+    steps: ['Define visit_planet with parameter planet.',
+      'Call it for Mars and Jupiter.',
+      'Add a repeat loop for launch checks.',
+      'Try Saturn or an invented planet.'],
+    vocabulary: ['function', 'argument', 'for', 'repeat'],
+    projectIdea: 'Challenge a friend to add a fourth destination.',
+    starterXml: start(parameterFunction('visit_planet', 'planet',
+      callWith('visit_planet', 'Mars',
+        repeat(3, 'Launch check!',
+          callWith('visit_planet', 'Jupiter', callWith('visit_planet', 'Saturn')))))),
+  },
+  {
+    id: 'space-bonus-3', module: 'Space Explorer · Bonus Missions',
+    title: 'Bonus 3 · Alien Quiz', goal: 'Return points for a correct answer.',
+    concept: 'functions, input, if/else and return', level: 'Stretch', duration: '15–20 min',
+    mission: 'Ask a space question. Award 10 stars for Mars and zero for a different answer.',
+    instructions: 'Play twice using Mars and Jupiter. Then create a new space question and change the correct answer in the choice block.',
+    successCriteria: 'A called quiz function asks a question, chooses with if/else, and returns a score.',
+    hint: 'The function returns 10 or 0. The stars variable remembers the number, then print shows it.',
+    steps: ['Run the quiz and answer Mars.',
+      'Try Jupiter and compare the result.',
+      'Change the question and expected answer together.',
+      'Challenge a friend and explain why their score changed.'],
+    vocabulary: ['input', 'if/else', 'return', 'score'],
+    projectIdea: 'Make a two-question space quiz by adding a second function.',
+    starterXml: quizStarter,
+  },
 ];
 
-export const spaceExplorerLessonIds = spaceExplorerLessons.map((lesson) => lesson.id);
+// Bonus missions are entirely optional: never include them in core progress or certificates.
+export const spaceExplorerBonusIds = ['space-bonus-1', 'space-bonus-2', 'space-bonus-3'];
+export const spaceExplorerBonusLessons = spaceExplorerLessons.filter((lesson) =>
+  spaceExplorerBonusIds.includes(lesson.id));
+export const spaceExplorerLessonIds = spaceExplorerLessons
+  .filter((lesson) => !spaceExplorerBonusIds.includes(lesson.id))
+  .map((lesson) => lesson.id);
