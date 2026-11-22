@@ -16,7 +16,7 @@ import { SpriteAssetPanel } from './components/SpriteAssetPanel';
 import { RepositoryDialog } from './components/RepositoryDialog';
 import { CompletionDialog } from './components/CompletionDialog';
 import { SpaceExplorer } from './components/SpaceExplorer';
-import { spaceExplorerLessons, spaceExplorerModules, spaceExplorerProjectId } from './space/spaceExplorer';
+import { spaceExplorerBonusIds, spaceExplorerLessons, spaceExplorerModules, spaceExplorerProjectId } from './space/spaceExplorer';
 import { checkSpaceMission } from './space/spaceValidation';
 import { firstLesson, lessons, projectPaths } from './lessons/lessons';
 import { getTinyPykSound, playTinyPykSound, stopTinyPykSounds } from './runtime/musicPlayer';
@@ -176,7 +176,7 @@ function App() {
     const completed = new Set(spaceCompletedIds);
     const firstIncomplete = spaceExplorerLessons.findIndex((lesson) => !completed.has(lesson.id));
     const unlocked = new Set(spaceExplorerLessons
-      .filter((lesson, index) => firstIncomplete < 0 || index <= firstIncomplete || completed.has(lesson.id))
+      .filter((lesson, index) => firstIncomplete < 0 || index <= firstIncomplete || completed.has(lesson.id) || spaceExplorerBonusIds.includes(lesson.id))
       .map((lesson) => lesson.id));
     if (spaceModule2Early) {
       const module2Lessons = spaceExplorerLessons.slice(4, 8);

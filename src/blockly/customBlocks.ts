@@ -302,5 +302,36 @@ export function registerCustomBlocks() {
       tooltip: 'Read the named parameter inside your function.',
       helpUrl: '',
     },
+    {
+      type: 'function_return_value',
+      message0: 'return %1',
+      args0: [{ type: 'input_value', name: 'VALUE' }],
+      previousStatement: null,
+      nextStatement: null,
+      colour: myBlocksColour,
+      tooltip: 'Send a number or other value back to the code that called your function.',
+      helpUrl: '',
+    },
+    {
+      type: 'function_call_result_simple',
+      message0: 'value from %1 ( )',
+      args0: [{ type: 'field_input', name: 'NAME', text: 'alien_quiz' }],
+      output: null,
+      colour: myBlocksColour,
+      tooltip: 'Call a function and use the value it returns.',
+      helpUrl: '',
+    },
+    {
+      type: 'function_call_with_result',
+      message0: 'value from %1 with %2',
+      args0: [
+        { type: 'field_input', name: 'NAME', text: 'collect_treasure' },
+        { type: 'input_value', name: 'ARGUMENT' },
+      ],
+      output: null,
+      colour: myBlocksColour,
+      tooltip: 'Call a function with an argument and use its returned value.',
+      helpUrl: '',
+    },
   ]);
 }

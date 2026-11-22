@@ -5844,6 +5844,7 @@ button {
 .space-module-jump:hover { background: #374c83; }
 
 .space-mission-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
+.space-bonus-section .space-mission-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .space-mission-card { display: flex; flex-direction: column; gap: 10px; min-width: 0; min-height: 235px; padding: 18px; border-radius: 18px; border: 1px solid #52608c; background: #25325b; }
 .space-mission-card.is-complete { border-color: #5de0a9; background: #1c414a; }
 .space-mission-status { font-size: .77rem; color: #aee4f8; font-weight: 800; }
@@ -5948,7 +5949,7 @@ button {
 .certificate-footer small { font-weight: 500; color: #6c7790; }
 .certificate-bottom { margin-top: 18px; font-size: .8rem; letter-spacing: .03em; color: #566e9c; }
 @media (max-width: 960px) {
-  .space-mission-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .space-mission-grid, .space-bonus-section .space-mission-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .space-home-promo { margin-left: 18px; margin-right: 18px; }
 }
 @media (max-width: 650px) {
@@ -5958,7 +5959,7 @@ button {
   .space-course-hero > img { max-height: 180px; width: 65%; justify-self: center; }
   .space-module-card { padding: 18px; }
   .space-module-heading { align-items: flex-start; }
-  .space-mission-grid { grid-template-columns: 1fr; }
+  .space-mission-grid, .space-bonus-section .space-mission-grid { grid-template-columns: 1fr; }
   .space-capstone, .space-award-card { flex-wrap: wrap; padding: 20px; }
   .space-capstone button, .space-award-card button { width: 100%; }
   .space-learning-banner, .space-home-promo { flex-direction: column; align-items: flex-start; }
